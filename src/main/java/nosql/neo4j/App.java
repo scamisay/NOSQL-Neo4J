@@ -9,6 +9,8 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
  */
 public class App 
 {
+	private static final String DB_PATH = "target/neo4j-hello-db";
+	
     public static void main( String[] args )
     {
     	GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( DB_PATH );
