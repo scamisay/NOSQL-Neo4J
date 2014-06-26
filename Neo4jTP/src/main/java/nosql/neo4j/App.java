@@ -2,7 +2,11 @@ package nosql.neo4j;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+
+import nosql.neo4j.loaders.LoaderNation;
+import nosql.neo4j.loaders.LoaderRegion;
 
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -29,28 +33,24 @@ public class App
     {
     	GraphDatabaseService graphDb;
     	graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( DB_PATH );
-    	Node firstNode;
-    	Node secondNode;
-    	Relationship relationship;
+    	
     	registerShutdownHook( graphDb );
     	System.out.println( "Hello World!" );
     	
-    	try ( Transaction tx = graphDb.beginTx() )
-    	{
-    	    Label label = DynamicLabel.label( "User" );
-    	    for ( IndexDefinition indexDefinition : graphDb.schema()
-    	            .getIndexes( label ) )
-    	    {
-    	        // There is only one index
-    	        indexDefinition.drop();
-    	    }
-
-    	    tx.success();
+    	LoaderRegion regionLoader=new LoaderRegion(graphDb);
+    	LoaderNation nationLoader=new LoaderNation(graphDb);
+    	regionLoader.loadData();
+    	nationLoader.loadData();
+    	Transaction tx=graphDb.beginTx();
+    	Iterable<Node> iterable=graphDb.findNodesByLabelAndProperty(DynamicLabel.label("region"), "name", "Oceanía");
+    	Iterator<Node> it=iterable.iterator();
+    	while(it.hasNext()){
+    		Node node=it.next();
+    		System.out.println((String)node.getProperty("name")+"  "+(String)node.getProperty("comment"));
     	}
     	
-    	firstNode= graphDb.createNode();
-        firstNode.setProperty("date", new Date("1993-04-23") );
-    	
+    	tx.success();
+    	System.out.println( "Goodbye Cruel World!" );
     	graphDb.shutdown();
     }
     
