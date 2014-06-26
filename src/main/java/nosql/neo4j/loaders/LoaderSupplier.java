@@ -21,6 +21,8 @@ public class LoaderSupplier extends LoaderDB {
 
 	public LoaderSupplier(GraphDatabaseService db) {
 		super(db);
+		
+		
 	}
 
 	@Override
