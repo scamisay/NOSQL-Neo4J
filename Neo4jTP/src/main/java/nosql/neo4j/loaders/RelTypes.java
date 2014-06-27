@@ -30,5 +30,11 @@ public enum RelTypes implements RelationshipType
     HAS_LINEITEM,
     BELONGS_TO_ORDER,
     // PartSupp - Lineitem
-    PARTSUPP_HAS_LINEITEM
+    PARTSUPP_HAS_LINEITEM,
+    
+    //Part - LineItem
+    IS_MADE_OF,
+    
+    //Supplier - LineItem
+    SUPPLIED_BY
 }
