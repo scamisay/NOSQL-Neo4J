@@ -13,7 +13,7 @@ import org.neo4j.graphdb.Transaction;
 
 public class LoaderSupplier extends LoaderDB {
 
-	private static int SUP_PER_NATION = 4;
+	public static int SUP_PER_NATION = 4;
 
 	public LoaderSupplier(String db_path) {
 		super(db_path);

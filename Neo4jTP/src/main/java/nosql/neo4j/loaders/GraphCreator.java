@@ -67,7 +67,7 @@ public class GraphCreator {
         Date startDate = new Date();
         Transaction tx = graphDB.beginTx();
         try {
-            insertRegions( tx, graphDB );
+            insertRegions( graphDB );
             insertNations( tx, graphDB );
             insertParts( tx, graphDB );
             insertSuppliers( tx, graphDB );
@@ -141,11 +141,15 @@ public class GraphCreator {
         return new java.sql.Date(calendar.getTimeInMillis());
     }
 
-    private void insertRegions( Transaction tx, GraphDatabaseService graphDB ) {
+    private void insertRegions( GraphDatabaseService graphDB ) {
+    	Transaction tx = graphDB.beginTx();
+    	
+    	Label region= DynamicLabel.label("region");
         for ( int i = 1; i <= 5; ++i ) {
             Integer id = getRandomInteger();
-            Node regionNode = graphDB.createNode();
 
+            Node regionNode = graphDB.createNode(region);
+            
             while(regionIds.contains(id)) id = getRandomInteger();
             regionIds.add(id);
 
@@ -157,16 +161,20 @@ public class GraphCreator {
                 regionNode.setProperty( "R_Name", getRandomString(64));
 
             regionNode.setProperty( "R_Comment", getRandomString(160));
-            regionNode.setProperty( "skip", getRandomString(64));
+            
 
             regions.add( regionNode );
         }
+        
+        tx.success();
     }
 
     private void insertNations( Transaction tx, GraphDatabaseService graphDB ) {
         // N_NationKey, N_Name, N_RegionKey, N_Comment, skip
-        for ( int i = 1; i <= 25; ++i ) {
-            Node nationNode = graphDB.createNode();
+    	Label nation= DynamicLabel.label("nation");
+		Label region= DynamicLabel.label("region");
+    	for ( int i = 1; i <= 25; ++i ) {
+            Node nationNode = graphDB.createNode(nation);
 
             Integer id = getRandomInteger();
             while(nationIds.contains(id)) id = getRandomInteger();
@@ -182,7 +190,7 @@ public class GraphCreator {
             //nationNode.createRelationshipTo(regionNode, RelTypes.BELONGS_TO_REGION);
 
             nationNode.setProperty("N_Comment", getRandomString(160));
-            nationNode.setProperty("skip", getRandomString(64));
+            
 
             nations.add( nationNode );
         }
@@ -215,7 +223,6 @@ public class GraphCreator {
             partNode.setProperty("P_Container", getRandomString(64));
             partNode.setProperty("P_RetailPrice", getRandomDouble(13));
             partNode.setProperty("P_Comment", getRandomString(64));
-            partNode.setProperty("skip", getRandomString(64));
             parts.add(partNode);
         }
     }
@@ -243,7 +250,6 @@ public class GraphCreator {
             supplierNode.setProperty("S_Phone", getRandomString(18));
             supplierNode.setProperty("S_AcctBal", getRandomDouble(13));
             supplierNode.setProperty("S_Comment", getRandomString(105));
-            supplierNode.setProperty("skip", getRandomString(64));
             suppliers.add(supplierNode);
         }
     }
@@ -279,8 +285,7 @@ public class GraphCreator {
             partsuppNode.setProperty("PS_AvailQty", getRandomInteger());
             partsuppNode.setProperty("PS_SupplyCost", getRandomDouble(13));
             partsuppNode.setProperty("PS_Comment", getRandomString(200));
-            partsuppNode.setProperty("skip", getRandomString(64));
-
+            
             List<Node> suppParts = partSupps.get(suppid);
             if (suppParts == null) suppParts = new ArrayList<Node>();
             suppParts.add(partsuppNode);
@@ -314,8 +319,7 @@ public class GraphCreator {
             else
                 customerNode.setProperty("C_MktSegment", getRandomString(64));
             customerNode.setProperty("C_Comment", getRandomString(120));
-            customerNode.setProperty("skip", getRandomString(64));
-
+            
             customers.add(customerNode);
         }
     }
@@ -351,8 +355,7 @@ public class GraphCreator {
             orderNode.setProperty("O_Clerk", getRandomString(64));
             orderNode.setProperty("O_ShipPriority", getRandomInteger());
             orderNode.setProperty("O_Comment", getRandomString(80));
-            orderNode.setProperty("skip", getRandomString(64));
-
+            
             orders.add(orderNode);
         }
     }
@@ -404,7 +407,6 @@ public class GraphCreator {
             if (random.nextInt(20) != 0)
                 lineitemNode.setProperty("L_Comment", getRandomString(64));
 
-            lineitemNode.setProperty("skip", getRandomString(64));
             lineitems.add(lineitemNode);
         }
     }
