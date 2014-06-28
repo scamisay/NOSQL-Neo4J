@@ -13,6 +13,7 @@ import nosql.neo4j.loaders.LoaderPart;
 import nosql.neo4j.loaders.LoaderRegion;
 import nosql.neo4j.loaders.LoaderSupplier;
 
+import nosql.neo4j.queries.QueryOne;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
@@ -49,6 +50,8 @@ System.out.println( "Hello World!" );
 
         graphCreator.initialInsert(graphDb);
 
+        QueryOne queryOne = new QueryOne(graphDb);
+        queryOne.execute(new ArrayList<String>());
     	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
     	LoaderNation nationLoader=new LoaderNation(graphDb);
     	LoaderSupplier supplierLoader=new LoaderSupplier(graphDb);

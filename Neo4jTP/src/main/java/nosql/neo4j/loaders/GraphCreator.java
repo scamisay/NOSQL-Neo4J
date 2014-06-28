@@ -360,6 +360,22 @@ public class GraphCreator {
         }
     }
 
+    private static double generateRandomDouble(int min, int max){
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum/100.;
+    }
+
+    private static Integer generateRandomInteger(int min, int max){
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+
     private void insertLineitems( Transaction tx, GraphDatabaseService graphDB ) {
         // L_OrderKey, L_PartKey, L_SuppKey, L_LineNumber, L_Quantity, L_ExtendedPrice, L_Discount,
         // L_Tax, L_RETURNFLAG, L_LINESTATUS, L_RECEIPTDATE, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
@@ -388,12 +404,12 @@ public class GraphCreator {
             Node partSupp = partSupps.get(suppId).get(partIndex);
             partSupp.createRelationshipTo(lineitemNode, RelTypes.PARTSUPP_HAS_LINEITEM);
             lineitemNode.setProperty("L_LineNumber", lineId);
-            lineitemNode.setProperty("L_Quantity", getRandomInteger());
-            lineitemNode.setProperty("L_ExtendedPrice", getRandomDouble(13));
-            lineitemNode.setProperty("L_Discount", getRandomDouble(13));
-            lineitemNode.setProperty("L_Tax", getRandomDouble(13));
-            lineitemNode.setProperty("L_RETURNFLAG", getRandomString(1));
-            lineitemNode.setProperty("L_LINESTATUS", getRandomString(1));
+            lineitemNode.setProperty("L_Quantity", generateRandomInteger(1,10));
+            lineitemNode.setProperty("L_ExtendedPrice", generateRandomInteger(1,1000));
+            lineitemNode.setProperty("L_Discount", generateRandomDouble(1,70));
+            lineitemNode.setProperty("L_Tax", generateRandomDouble(1, 40));
+            lineitemNode.setProperty("L_RETURNFLAG", "r");
+            lineitemNode.setProperty("L_LINESTATUS", "a");
             // With probability 0.05, set the date to Apr 30 2013
             if (random.nextInt(20) == 0) {
                 Calendar calendar = new GregorianCalendar(2013,4,30);
