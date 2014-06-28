@@ -39,7 +39,7 @@ public class LoaderNation extends LoaderDB{
 			Iterator<Node> it=reg.iterator();
 			if(it.hasNext()){
 				Node regionNode=it.next();
-				regionNode.createRelationshipTo(node, RelTypes.BELONGS_TO);
+				regionNode.createRelationshipTo(node, RelTypes.HAS_NATION);
 			}
 		
 		}
@@ -47,9 +47,5 @@ public class LoaderNation extends LoaderDB{
 		
 	}
 
-	 private static enum RelTypes implements RelationshipType
-	    {
-	        BELONGS_TO
-	    }
-	
+
 }

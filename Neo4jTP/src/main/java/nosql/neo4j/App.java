@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import nosql.neo4j.loaders.GraphCreator;
 import nosql.neo4j.loaders.LoaderNation;
+import nosql.neo4j.loaders.LoaderPart;
 import nosql.neo4j.loaders.LoaderRegion;
+import nosql.neo4j.loaders.LoaderSupplier;
 
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -49,8 +51,10 @@ System.out.println( "Hello World!" );
 
     	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
     	LoaderNation nationLoader=new LoaderNation(graphDb);
+    	LoaderSupplier supplierLoader=new LoaderSupplier(graphDb);
     	regionLoader.loadData();
     	nationLoader.loadData();
+    	supplierLoader.loadData();
     	Transaction tx=graphDb.beginTx();
     	Iterable<Node> iterable=graphDb.findNodesByLabelAndProperty(DynamicLabel.label("region"), "name", "Oceanía");
     	Iterator<Node> it=iterable.iterator();
