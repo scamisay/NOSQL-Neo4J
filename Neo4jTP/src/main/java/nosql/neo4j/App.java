@@ -1,10 +1,13 @@
 package nosql.neo4j;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import nosql.neo4j.loaders.GraphCreator;
 import nosql.neo4j.loaders.LoaderNation;
 import nosql.neo4j.loaders.LoaderRegion;
 
@@ -19,6 +22,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.graphdb.schema.Schema;
+import org.neo4j.kernel.impl.util.FileUtils;
 
 /**
  * Hello world!
@@ -27,17 +31,23 @@ import org.neo4j.graphdb.schema.Schema;
 public class App 
 {
 	private static final String DB_PATH = "target/neo4j-hello-db";
+
+    private static GraphCreator graphCreator = new GraphCreator();
 	
 	
     public static void main( String[] args )
     {
+        /*elimino y creo la base*/
+        clearDb();
     	GraphDatabaseService graphDb;
     	graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( DB_PATH );
-    	
     	registerShutdownHook( graphDb );
-    	System.out.println( "Hello World!" );
-    	
-    	LoaderRegion regionLoader=new LoaderRegion(graphDb);
+
+System.out.println( "Hello World!" );
+
+        graphCreator.initialInsert(graphDb);
+
+    	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
     	LoaderNation nationLoader=new LoaderNation(graphDb);
     	regionLoader.loadData();
     	nationLoader.loadData();
@@ -49,9 +59,20 @@ public class App
     		System.out.println((String)node.getProperty("name")+"  "+(String)node.getProperty("comment"));
     	}
     	
-    	tx.success();
-    	System.out.println( "Goodbye Cruel World!" );
+    	tx.success();*/
+System.out.println( "Goodbye Cruel World!" );
     	graphDb.shutdown();
+    }
+
+
+
+    private static void clearDb() {
+        try {
+            FileUtils.deleteRecursively(new File(DB_PATH));
+        }
+        catch ( IOException e ) {
+            throw new RuntimeException( e );
+        }
     }
     
     private static void registerShutdownHook( final GraphDatabaseService graphDb )
