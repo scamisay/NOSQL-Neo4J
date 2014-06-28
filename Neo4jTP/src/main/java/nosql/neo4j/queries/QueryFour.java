@@ -41,9 +41,10 @@ public class QueryFour extends QueryDB{
     /*    try ( Transaction ignored = db.beginTx() )
         {*/
         	String rows = "";
-            result = engine.execute( "match (r:region{name:\""+region+"\"})-[:HASNATION]->(n:nation)-[:HAS_CUSTOMER]->(c:customer)-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]->(l:lineItem)-[:SUPPLIED_BY]->(s:supplier),(s:supplier)<-[:HAS_NATION]-(n)  where (o.orderDate>="+date1+") and (o.orderDate<"+date2+") return  n.name,sum(l.extendedPrice*(1-l.discount)) as revenue order by revenue desc" );
+            result = engine.execute( "match (r:region{name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_CUSTOMER]->(c:customer)-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]->(l:lineItem)-[:SUPPLIED_BY]->(s:supplier),(s:supplier)<-[:HAS_NATION]-(n)  where (o.orderDate>="+date1+") and (o.orderDate<"+date2+") return  n.name,sum(l.extendedPrice*(1-l.discount)) as revenue order by revenue desc" );
             // END SNIPPET: execute
             // START SNIPPET: items
+           System.out.println(result.iterator().hasNext());
             for ( Map<String, Object> row : result )
             {
                 for ( Entry<String, Object> column : row.entrySet() )
