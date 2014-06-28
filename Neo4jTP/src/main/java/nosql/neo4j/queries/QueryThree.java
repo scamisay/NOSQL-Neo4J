@@ -42,7 +42,7 @@ public class QueryThree extends QueryDB{
         ExecutionResult result;
        /* try ( Transaction ignored = db.beginTx() )
         {
-            result = engine.execute( "start c=node:customer{mktsegment:\""+mktsegment+"\"} match c-[:HASORDER]->(o:order)-[:HAS_LINEITEM]-(l:lineItem)  where o.orderdate<"+date1+" and l.shipdate> "+date2+"yCost=min(p.supplyCost) return  l.orderkey,sum(l.extendedprice*(1-l.discount)) as revenue,o.orderdate,o.shippriority order by revenue desc,o.orderdate" );
+            result = engine.execute( "match (c:customer{mktSegment:\""+mktsegment+"\"})-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]-(l:lineItem)  where o.orderDate<"+date1+" and l.shipDate> "+date2+" return  l.orderkey,sum(l.extendedPrice*(1-l.discount)) as revenue,o.orderDate,o.shipPriority order by revenue desc,o.orderDate" );
             // END SNIPPET: execute
             // START SNIPPET: items
             Iterator<Node> n_column = result.columnAs( "n" );
