@@ -40,7 +40,7 @@ public class QueryThree extends QueryDB{
         
         
         ExecutionResult result;
-        try ( Transaction ignored = db.beginTx() )
+       /* try ( Transaction ignored = db.beginTx() )
         {
             result = engine.execute( "start c=node:customer{mktsegment:\""+mktsegment+"\"} match c-[:HASORDER]->(o:order)-[:HAS_LINEITEM]-(l:lineItem)  where o.orderdate<"+date1+" and l.shipdate> "+date2+"yCost=min(p.supplyCost) return  l.orderkey,sum(l.extendedprice*(1-l.discount)) as revenue,o.orderdate,o.shippriority order by revenue desc,o.orderdate" );
             // END SNIPPET: execute
@@ -53,7 +53,7 @@ public class QueryThree extends QueryDB{
                 //nodeResult = node + ": " + node.getProperty( "name" );
             }
             // END SNIPPET: items
-        }
+        }*/
 
 		
 	}

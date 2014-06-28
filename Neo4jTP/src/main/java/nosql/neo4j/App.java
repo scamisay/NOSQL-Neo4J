@@ -3,8 +3,11 @@ package nosql.neo4j;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nosql.neo4j.loaders.GraphCreator;
@@ -12,6 +15,7 @@ import nosql.neo4j.loaders.LoaderNation;
 import nosql.neo4j.loaders.LoaderPart;
 import nosql.neo4j.loaders.LoaderRegion;
 import nosql.neo4j.loaders.LoaderSupplier;
+import nosql.neo4j.queries.QueryFour;
 
 import nosql.neo4j.queries.QueryOne;
 import org.neo4j.graphdb.DynamicLabel;
@@ -29,29 +33,39 @@ import org.neo4j.kernel.impl.util.FileUtils;
 
 /**
  * Hello world!
- *
+ * 
  */
-public class App 
-{
+public class App {
 	private static final String DB_PATH = "target/neo4j-hello-db";
 
-    private static GraphCreator graphCreator = new GraphCreator();
-	
-	
-    public static void main( String[] args )
-    {
-        /*elimino y creo la base*/
-        clearDb();
-    	GraphDatabaseService graphDb;
-    	graphDb = new GraphDatabaseFactory().newEmbeddedDatabase( DB_PATH );
-    	registerShutdownHook( graphDb );
+	private static GraphCreator graphCreator = new GraphCreator();
 
-System.out.println( "Hello World!" );
+	public static void main(String[] args) {
+		/* elimino y creo la base */
+		clearDb();
+		GraphDatabaseService graphDb;
+		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
+		registerShutdownHook(graphDb);
+
+		System.out.println("Hello World!");
 
         graphCreator.initialInsert(graphDb);
 
+        /***************
+        * query 1
+        ***************/
         QueryOne queryOne = new QueryOne(graphDb);
         queryOne.execute(new ArrayList<String>());
+
+        /***************
+         * query 4
+         ***************/
+        QueryFour q=new QueryFour(graphDb);
+        List<String> arguments=new ArrayList<String>();
+        arguments.add("Europa");
+        arguments.add("2014-01-01");
+        q.execute(arguments);
+
     	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
     	LoaderNation nationLoader=new LoaderNation(graphDb);
     	LoaderSupplier supplierLoader=new LoaderSupplier(graphDb);
@@ -67,41 +81,35 @@ System.out.println( "Hello World!" );
     	}
     	
     	tx.success();*/
-System.out.println( "Goodbye Cruel World!" );
-    	graphDb.shutdown();
-    }
 
 
 
-    private static void clearDb() {
-        try {
-            FileUtils.deleteRecursively(new File(DB_PATH));
-        }
-        catch ( IOException e ) {
-            throw new RuntimeException( e );
-        }
-    }
-    
-    private static void registerShutdownHook( final GraphDatabaseService graphDb )
-    {
-        // Registers a shutdown hook for the Neo4j instance so that it
-        // shuts down nicely when the VM exits (even if you "Ctrl-C" the
-        // running application).
-        Runtime.getRuntime().addShutdownHook( new Thread()
-        {
-            @Override
-            public void run()
-            {
-                graphDb.shutdown();
-            }
-        } );
-    }
-    
-    private static enum RelTypes implements RelationshipType
-    {
-        KNOWS
-    }
-    
-    
-    
+        graphDb.shutdown();
+        System.out.println( "Goodbye Cruel World!" );
+	}
+
+	private static void clearDb() {
+		try {
+			FileUtils.deleteRecursively(new File(DB_PATH));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static void registerShutdownHook(final GraphDatabaseService graphDb) {
+		// Registers a shutdown hook for the Neo4j instance so that it
+		// shuts down nicely when the VM exits (even if you "Ctrl-C" the
+		// running application).
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				graphDb.shutdown();
+			}
+		});
+	}
+
+	private static enum RelTypes implements RelationshipType {
+		KNOWS
+	}
+
 }
