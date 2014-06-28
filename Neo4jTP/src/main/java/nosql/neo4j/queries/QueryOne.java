@@ -1,9 +1,6 @@
 package nosql.neo4j.queries;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
@@ -31,6 +28,7 @@ public class QueryOne extends QueryDB{
                 "        avg(n.L_Quantity) as avg_qty, avg(n.L_ExtendedPrice) as avg_price, avg(n.L_Discount)as avg_disc, count(*) as count_order " +
                 " ORDER BY n.L_RETURNFLAG, n.L_LINESTATUS"
         );
+        printResults(result);
 
 	}
 
