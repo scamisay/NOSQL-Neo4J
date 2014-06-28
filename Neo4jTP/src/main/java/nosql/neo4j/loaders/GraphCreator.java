@@ -362,11 +362,13 @@ public class GraphCreator {
 
     private void insertLineitems( Transaction tx, GraphDatabaseService graphDB ) {
         // L_OrderKey, L_PartKey, L_SuppKey, L_LineNumber, L_Quantity, L_ExtendedPrice, L_Discount,
-        // L_Tax, L_ReturnFlag, L_LineStatus, L_ShipDate, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
+        // L_Tax, L_RETURNFLAG, L_LINESTATUS, L_RECEIPTDATE, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
+
+        Label lineItem= DynamicLabel.label("LineItem");
 
         int maxValues = (int) (SF * 6000000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node lineitemNode = graphDB.createNode();
+            Node lineitemNode = graphDB.createNode(lineItem);
 
             // L_OrderKey
             int index = random.nextInt(orderIds.size());
@@ -390,15 +392,15 @@ public class GraphCreator {
             lineitemNode.setProperty("L_ExtendedPrice", getRandomDouble(13));
             lineitemNode.setProperty("L_Discount", getRandomDouble(13));
             lineitemNode.setProperty("L_Tax", getRandomDouble(13));
-            lineitemNode.setProperty("L_ReturnFlag", getRandomString(64));
-            lineitemNode.setProperty("L_LineStatus", getRandomString(64));
+            lineitemNode.setProperty("L_RETURNFLAG", getRandomString(1));
+            lineitemNode.setProperty("L_LINESTATUS", getRandomString(1));
             // With probability 0.05, set the date to Apr 30 2013
             if (random.nextInt(20) == 0) {
                 Calendar calendar = new GregorianCalendar(2013,4,30);
                 lineitemNode.setProperty("L_ShipDate", calendar.getTime().getTime());
             }
             else
-                lineitemNode.setProperty("L_ShipDate", getRandomDate().getTime());
+                lineitemNode.setProperty("L_RECEIPTDATE", getRandomDate().getTime());
             lineitemNode.setProperty("L_CommitDate", getRandomDate().getTime());
             if (random.nextInt(20) != 0)
                 lineitemNode.setProperty("L_ReceiptDate", getRandomDate().getTime());

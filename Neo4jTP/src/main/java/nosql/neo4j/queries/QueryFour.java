@@ -34,7 +34,7 @@ public class QueryFour extends QueryDB{
 		calendar.add(Calendar.YEAR, 1);
         long date2=calendar.getTime().getTime();	
         ExecutionResult result;
-        try ( Transaction ignored = db.beginTx() )
+       /* try ( Transaction ignored = db.beginTx() )
         {
             result = engine.execute( "start r=node:region{name:\""+region+"\"} match r-[:HASNATION]->(n:nation)-[:HAS_CUSTOMER]->(c:customer)-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]->(l:listItem)-[:SUPPLIED_BY]->(s:supplier)-[:HAS_NATION]-(n)  where o.orderdate>="+date1+" and o.orderdate<"+date2+"return  n.name,sum(l.extendedprice*(1-l.discount)) as revenue order by revenue desc" );
             // END SNIPPET: execute
@@ -47,7 +47,7 @@ public class QueryFour extends QueryDB{
                 //nodeResult = node + ": " + node.getProperty( "name" );
             }
             // END SNIPPET: items
-        }
+        }*/
 
 		
 	}
