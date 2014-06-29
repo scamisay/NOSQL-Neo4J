@@ -24,19 +24,13 @@ public class QueryTwo extends QueryDB{
 		int size=Integer.parseInt(arguments.get(1));
 		String type=arguments.get(2);
         ExecutionResult result;
-       /* try ( Transaction ignored = db.beginTx() )
-        {*/
-        
-          
-        
+       
         result = engine.execute(
-                "MATCH (r:region{name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_SUPPLIER]-(s:Supplier)-[:SUPPLIER_HAS_PARTSUPP]->(ps:PartSupplier)-[:BELONGS_TO_PART]->(p:Part)  where p.P_Type=~'.*"+type+".*' and p.P_Size="+size+" WITH ps, min(ps.ps_supplycost) AS min_supp_cost, s, n, p RETURN s.S_AcctBal, s.S_Name, n.N_Name, s.S_Address,p.P_PartKey, p.P_Mfgr, s.S_Phone, s.S_Comment"
+                "MATCH (r:region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_SUPPLIER]-(s:Supplier)-[:SUPPLIER_HAS_PARTSUPP]->(ps:PartSupplier)-[:BELONGS_TO_PART]->(p:Part)  where p.P_Type=~'.*"+type+".*' and p.P_Size="+size+" WITH ps, min(ps.PS_SupplyCost) AS min_supp_cost, s, n, p RETURN s.S_AcctBal, s.S_Name, n.N_Name, s.S_Address,p.P_PartKey, p.P_Mfgr, s.S_Phone, s.S_Comment"
         );
         
         printResults(result);
-       // }
-
-		
+       		
 	}
 
 }

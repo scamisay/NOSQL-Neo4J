@@ -72,8 +72,12 @@ public class App {
          /***************
           * query 3
           ***************/
-//          QueryThree queryThree = new QueryThree(graphDb);
-//          queryThree.execute(new ArrayList<String>());
+         QueryThree queryThree = new QueryThree(graphDb);
+         List<String> argumentsThree=new ArrayList<String>();
+         argumentsThree.add("12345678901234567890123456789012");
+         argumentsThree.add("2014-01-01");
+         argumentsThree.add("2014-01-01");
+         queryThree.execute(argumentsThree);
         
         /***************
          * query 4

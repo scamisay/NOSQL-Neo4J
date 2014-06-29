@@ -26,12 +26,11 @@ public class QueryFour extends QueryDB{
 		ExecutionEngine engine = new ExecutionEngine( db );
 		String region=arguments.get(0);
 		String date1string=arguments.get(1);
-		System.out.println(date1string);
+		
         int date1year=Integer.parseInt(date1string.substring(0, 4));
         int date1month=Integer.parseInt(date1string.substring(5, 7));
         int date1day=Integer.parseInt(date1string.substring(8, 10));
-        System.out.println(date1year+" "+date1month+" "+date1day);
-		Calendar calendar = new GregorianCalendar();
+        Calendar calendar = new GregorianCalendar();
         calendar.set(date1year, date1month, date1day);
         
         long date1=Math.abs(calendar.getTime().getTime());
@@ -40,22 +39,10 @@ public class QueryFour extends QueryDB{
         ExecutionResult result;
     /*    try ( Transaction ignored = db.beginTx() )
         {*/
-        	String rows = "";
-            result = engine.execute( "match (r:region{name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_CUSTOMER]->(c:customer)-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]->(l:lineItem)-[:SUPPLIED_BY]->(s:supplier),(s:supplier)<-[:HAS_NATION]-(n)  where (o.orderDate>="+date1+") and (o.orderDate<"+date2+") return  n.name,sum(l.extendedPrice*(1-l.discount)) as revenue order by revenue desc" );
-            // END SNIPPET: execute
-            // START SNIPPET: items
-           System.out.println(result.iterator().hasNext());
-            for ( Map<String, Object> row : result )
-            {
-                for ( Entry<String, Object> column : row.entrySet() )
-                {
-                    rows += column.getKey() + ": " + column.getValue() + "; ";
-                }
-                rows += "\n";
-            }
+        	result = engine.execute( "MATCH (r:region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_CUSTOMER]->(c:Customer)-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)<-[:PARTSUPP_HAS_LINEITEM]-(ps:PartSupplier),(ps)<-[:SUPPLIER_HAS_PARTSUPP]-(s:Supplier)<-[:HAS_SUPPLIER]-(n)  where (o.O_OrderDate>="+date1+") and (o.O_OrderDate<"+date2+") return  n.N_Name,sum(l.L_ExtendedPrice*(1-l.L_Discount)) as revenue order by revenue desc" );
+        	 printResults(result);
+             
             
-            
-            // END SNIPPET: items
         //}
 
 		
