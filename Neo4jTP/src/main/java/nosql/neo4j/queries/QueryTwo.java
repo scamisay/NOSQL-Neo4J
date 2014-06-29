@@ -25,19 +25,12 @@ public class QueryTwo extends QueryDB{
 		String type=arguments.get(2);
         ExecutionResult result;
        /* try ( Transaction ignored = db.beginTx() )
-        {
-            result = engine.execute( "match (r:region{name:\""+region+"\"})-[:HAS_NATION]-()-[:HAS_SUPPLIER]-(sup:supplier)-[p:PROVIDE]-(par:part)  where par.type=~'.*"+type+".*' and par.size="+size+" WITH p, min(p.supplyCost)  return l.returnflag,l.linestatus,sum(l.quantity) AS sum_qty,sum(l.extendedprice) AS sum_base_price,sum(l.extendedprice*(1-l.discount))AS sum_disc_price,sum(l.extendedprice*(1+l.tax)) AS sum_charge,avg(l.quantity) AS avg_qty,avg(l.extendedprice) AS avg_price,avg(l.discount) AS avg_disc,count() AS count_order" );
-            // END SNIPPET: execute
-            // START SNIPPET: items
-            Iterator<Node> n_column = result.columnAs( "n" );
-            for ( Node node : IteratorUtil.asIterable( n_column ) )
-            {
-                // note: we're grabbing the name property from the node,
-                // not from the n.name in this case.
-                //nodeResult = node + ": " + node.getProperty( "name" );
-            }
-            // END SNIPPET: items
-        }*/
+        {*/
+        result = engine.execute(
+                "match (r:region{name:\""+region+"\"})-[:HAS_NATION]-()-[:HAS_SUPPLIER]-(sup:supplier)-[p:PROVIDE]-(par:part)  where par.type=~'.*"+type+".*' and par.size="+size+" WITH p, min(p.supplyCost)  return l.returnflag,l.linestatus,sum(l.quantity) AS sum_qty,sum(l.extendedprice) AS sum_base_price,sum(l.extendedprice*(1-l.discount))AS sum_disc_price,sum(l.extendedprice*(1+l.tax)) AS sum_charge,avg(l.quantity) AS avg_qty,avg(l.extendedprice) AS avg_price,avg(l.discount) AS avg_disc,count() AS count_order"
+        );
+        printResults(result);
+       // }
 
 		
 	}

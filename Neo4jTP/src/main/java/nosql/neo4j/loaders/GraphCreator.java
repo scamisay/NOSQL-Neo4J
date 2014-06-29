@@ -199,9 +199,11 @@ public class GraphCreator {
     private void insertParts( Transaction tx, GraphDatabaseService graphDB ) {
         // P_PartKey, P_Name, P_Mfgr, P_Brand, P_Type, P_Size, P_Container, P_RetailPrice, P_Comment, skip
 
+        Label part = DynamicLabel.label("Part");
+
         int maxValues = (int) (SF * 200000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node partNode = graphDB.createNode();
+            Node partNode = graphDB.createNode(part);
 
             Integer id = getRandomInteger();
             while(partIds.contains(id)) id = getRandomInteger();
@@ -230,9 +232,11 @@ public class GraphCreator {
     private void insertSuppliers( Transaction tx, GraphDatabaseService graphDB ) {
         // S_SuppKey, S_Name, S_Address, S_NationKey, S_Phone, S_AcctBal, S_Comment, skip
 
+        Label supplier= DynamicLabel.label("Supplier");
+
         int maxValues = (int) (SF * 10000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node supplierNode = graphDB.createNode();
+            Node supplierNode = graphDB.createNode(supplier);
 
             Integer id = getRandomInteger();
             while(supplierIds.contains(id)) id = getRandomInteger();
@@ -257,9 +261,11 @@ public class GraphCreator {
     private void insertPartSuppliers( Transaction tx, GraphDatabaseService graphDB ) {
         // PS_PartKey, PS_SuppKey, PS_AvailQty, PS_SupplyCost, PS_Comment, skip
 
+        Label partSupplier= DynamicLabel.label("PartSupplier");
+
         int maxValues = (int) (SF * 800000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node partsuppNode = graphDB.createNode();
+            Node partsuppNode = graphDB.createNode(partSupplier);
 
             int suppIndex = random.nextInt(supplierIds.size());
             Integer suppid = supplierIds.get(suppIndex);
@@ -273,8 +279,8 @@ public class GraphCreator {
             partSuppIds.get(suppid).add(partid);
             //document.put("PS_PartKey", partid);
             Node part = parts.get(partIndex);
-            part.createRelationshipTo(partsuppNode, RelTypes.PART_HAS_PARTSUPP);
-            //partsuppNode.createRelationshipTo(part, RelTypes.BELONGS_TO_PART);
+            //part.createRelationshipTo(partsuppNode, RelTypes.PART_HAS_PARTSUPP);
+            partsuppNode.createRelationshipTo(part, RelTypes.BELONGS_TO_PART);
 
             // PS_PartKey
             Node supplier = suppliers.get(suppIndex);
@@ -405,7 +411,7 @@ public class GraphCreator {
             partSupp.createRelationshipTo(lineitemNode, RelTypes.PARTSUPP_HAS_LINEITEM);
             lineitemNode.setProperty("L_LineNumber", lineId);
             lineitemNode.setProperty("L_Quantity", generateRandomInteger(1,10));
-            lineitemNode.setProperty("L_ExtendedPrice", generateRandomInteger(1,1000));
+            lineitemNode.setProperty("L_ExtendedPrice", generateRandomInteger(1, 1000));
             lineitemNode.setProperty("L_Discount", generateRandomDouble(1,70));
             lineitemNode.setProperty("L_Tax", generateRandomDouble(1, 40));
             lineitemNode.setProperty("L_RETURNFLAG", "r");
