@@ -26,7 +26,7 @@ public class QueryTwo extends QueryDB{
         ExecutionResult result;
        
         result = engine.execute(
-                "MATCH (r:region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_SUPPLIER]-(s:Supplier)-[:SUPPLIER_HAS_PARTSUPP]->(ps:PartSupplier)-[:BELONGS_TO_PART]->(p:Part)  where p.P_Type=~'.*"+type+".*' and p.P_Size="+size+" WITH ps, min(ps.PS_SupplyCost) AS min_supp_cost, s, n, p RETURN s.S_AcctBal, s.S_Name, n.N_Name, s.S_Address,p.P_PartKey, p.P_Mfgr, s.S_Phone, s.S_Comment"
+                "MATCH (r:region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_SUPPLIER]-(s:Supplier)-[:SUPPLIER_HAS_PARTSUPP]->(ps:PartSupplier)-[:BELONGS_TO_PART]->(p:Part)  where p.P_Type=~'.*"+type+".*' and p.P_Size="+size+" WITH ps, min(ps.PS_SupplyCost) AS min_supp_cost, s, n, p RETURN s.S_AcctBal, s.S_Name, n.N_Name, s.S_Address,p.P_PartKey, p.P_Mfgr, s.S_Phone, s.S_Comment ORDER BY s.S_AcctBal DESC, n.N_Name, s.S_Name, p.P_PartKey"
         );
         
         printResults(result);
