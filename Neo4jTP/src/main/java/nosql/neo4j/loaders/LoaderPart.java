@@ -37,7 +37,7 @@ public class LoaderPart extends LoaderDB{
 		int maxValues = (int) (SF * 200000);
         Label part=DynamicLabel.label("part");
         Label supplier=DynamicLabel.label("supplier");
-        List<Node> suppliersNodes=new ArrayList<Node>();
+        List<Node> suppliersNodes = new ArrayList<Node>();
         Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(supplier).iterator();
         while(it.hasNext()){
         	suppliersNodes.add(it.next());

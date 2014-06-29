@@ -37,6 +37,9 @@ public class LoaderListItem extends LoaderDB{
 		// L_OrderKey, L_PartKey, L_SuppKey, L_LineNumber, L_Quantity, L_ExtendedPrice, L_Discount,
         // L_Tax, L_ReturnFlag, L_LineStatus, L_ShipDate, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
 
+
+
+
         int maxValues = (int) (SF * 6000000);
         Label lineItem=DynamicLabel.label("lineItem");
         Label order=DynamicLabel.label("order");
@@ -67,12 +70,13 @@ public class LoaderListItem extends LoaderDB{
             orderNode.createRelationshipTo(lineitemNode, RelTypes.HAS_LINEITEM);
             
 
-            Integer id = orderIds.get(index);
+            //Integer id = orderIds.get(index);
+            //Integer id = (Integer)orderNode.getProperty("O_OrderKey");
 
-            if (lineItemIds.get(id) == null) lineItemIds.put(id, 1000);
+            /*if (lineItemIds.get(id) == null) lineItemIds.put(id, 1000);
             Integer lineId = lineItemIds.get(id) + 1;
             lineItemIds.put(id, lineId);
-
+*/
             int suppIndex = random.nextInt(suppliersNodes.size());
             Node supplierNode = suppliersNodes.get(suppIndex);
             Iterator<Relationship> partIt=supplierNode.getRelationships().iterator();
@@ -89,7 +93,7 @@ public class LoaderListItem extends LoaderDB{
             
             lineitemNode.createRelationshipTo(partNode, RelTypes.IS_MADE_OF);
             lineitemNode.createRelationshipTo(supplierNode,RelTypes.SUPPLIED_BY);
-            lineitemNode.setProperty("lineNumber", lineId);
+            //lineitemNode.setProperty("lineNumber", lineId);
             lineitemNode.setProperty("quantity", getRandomInteger());
             lineitemNode.setProperty("extendedPrice", getRandomDouble(13));
             lineitemNode.setProperty("discount", getRandomDouble(13));

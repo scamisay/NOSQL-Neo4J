@@ -41,7 +41,7 @@ public class LoaderSupplier extends LoaderDB{
 
         int maxValues = (int) (SF * 10000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node supplierNode = db.createNode();
+            Node supplierNode = db.createNode(supplier);
 
             Integer id = getRandomInteger();
             supplierNode.setProperty("name", getRandomString(64));
