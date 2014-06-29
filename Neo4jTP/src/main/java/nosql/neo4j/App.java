@@ -36,7 +36,7 @@ import org.neo4j.kernel.impl.util.FileUtils;
  * 
  */
 public class App {
-	private static final String DB_PATH = "target/neo4j-hello-db";
+	private static final String DB_PATH = "/home/teresa/Documentos/dataTPNOSQL/neo4j-hello-db";
 
 	private static GraphCreator graphCreator = new GraphCreator();
 
