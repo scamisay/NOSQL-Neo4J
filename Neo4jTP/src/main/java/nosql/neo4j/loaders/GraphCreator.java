@@ -301,10 +301,10 @@ public class GraphCreator {
 
     private void insertCustomers( Transaction tx, GraphDatabaseService graphDB ) {
         // C_CustKey, C_Name, C_Address, C_NationKey, C_Phone, C_AcctBal, C_MktSegment, C_Comment, skip
-
+    	Label customer= DynamicLabel.label("Customer");
         int maxValues = (int) (SF * 150000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node customerNode = graphDB.createNode();
+            Node customerNode = graphDB.createNode(customer);
 
             Integer id = getRandomInteger();
             while(customerIds.contains(id)) id = getRandomInteger();
@@ -333,9 +333,10 @@ public class GraphCreator {
     private void insertOrders( Transaction tx, GraphDatabaseService graphDB ) {
         // O_OrderKey, O_CustKey, O_OrderStatus, O_TotalPrice, O_OrderDate, O_OrderPriority, O_Clerk, O_ShipPriority, O_Comment, skip
 
+    	Label order= DynamicLabel.label("Order");
         int maxValues = (int) (SF * 1500000);
         for (int i = 1; i <= maxValues; ++i) {
-            Node orderNode = graphDB.createNode();
+            Node orderNode = graphDB.createNode(order);
 
             Integer id = getRandomInteger();
             while(orderIds.contains(id)) id = getRandomInteger();

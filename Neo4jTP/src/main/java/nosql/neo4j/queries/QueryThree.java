@@ -40,20 +40,9 @@ public class QueryThree extends QueryDB{
         
         
         ExecutionResult result;
-       /* try ( Transaction ignored = db.beginTx() )
-        {
-            result = engine.execute( "match (c:customer{mktSegment:\""+mktsegment+"\"})-[:HAS_ORDER]->(o:order)-[:HAS_LINEITEM]-(l:lineItem)  where o.orderDate<"+date1+" and l.shipDate> "+date2+" return  l.orderkey,sum(l.extendedPrice*(1-l.discount)) as revenue,o.orderDate,o.shipPriority order by revenue desc,o.orderDate" );
-            // END SNIPPET: execute
-            // START SNIPPET: items
-            Iterator<Node> n_column = result.columnAs( "n" );
-            for ( Node node : IteratorUtil.asIterable( n_column ) )
-            {
-                // note: we're grabbing the name property from the node,
-                // not from the n.name in this case.
-                //nodeResult = node + ": " + node.getProperty( "name" );
-            }
-            // END SNIPPET: items
-        }*/
+           result = engine.execute( "MATCH (c:Customer{C_MktSegment:\""+mktsegment+"\"})-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)  WHERE o.O_OrderDate<"+date1+" AND l.L_ShipDate> "+date2+" RETURN  o.O_OrderKey,sum(l.L_ExtendedPrice*(1-l.L_Discount)) as revenue,o.O_OrderDate,o.O_ShipPriority ORDER BY revenue desc,o.O_OrderDate" );
+            printResults(result);
+        
 
 		
 	}

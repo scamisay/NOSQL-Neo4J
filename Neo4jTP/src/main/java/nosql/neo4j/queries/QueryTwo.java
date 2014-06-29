@@ -26,9 +26,13 @@ public class QueryTwo extends QueryDB{
         ExecutionResult result;
        /* try ( Transaction ignored = db.beginTx() )
         {*/
+        
+          
+        
         result = engine.execute(
-                "match (r:region{name:\""+region+"\"})-[:HAS_NATION]-()-[:HAS_SUPPLIER]-(sup:supplier)-[p:PROVIDE]-(par:part)  where par.type=~'.*"+type+".*' and par.size="+size+" WITH ps, min(ps.ps_supplycost) AS min_supp_cost, s, n, p   return l.returnflag,l.linestatus,sum(l.quantity) AS sum_qty,sum(l.extendedprice) AS sum_base_price,sum(l.extendedprice*(1-l.discount))AS sum_disc_price,sum(l.extendedprice*(1+l.tax)) AS sum_charge,avg(l.quantity) AS avg_qty,avg(l.extendedprice) AS avg_price,avg(l.discount) AS avg_disc,count() AS count_order"
+                "MATCH (r:region{name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_SUPPLIER]-(s:Supplier)-[:SUPPLIER_HAS_PARTSUPP]->(ps:PartSupplier)-[:BELONGS_TO_PART]->(p:Part)  where p.P_Type=~'.*"+type+".*' and p.P_Size="+size+" WITH ps, min(ps.ps_supplycost) AS min_supp_cost, s, n, p RETURN s.S_AcctBal, s.S_Name, n.N_Name, s.S_Address,p.P_PartKey, p.P_Mfgr, s.S_Phone, s.S_Comment"
         );
+        
         printResults(result);
        // }
 

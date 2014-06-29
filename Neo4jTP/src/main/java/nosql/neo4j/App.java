@@ -16,8 +16,10 @@ import nosql.neo4j.loaders.LoaderPart;
 import nosql.neo4j.loaders.LoaderRegion;
 import nosql.neo4j.loaders.LoaderSupplier;
 import nosql.neo4j.queries.QueryFour;
-
 import nosql.neo4j.queries.QueryOne;
+import nosql.neo4j.queries.QueryThree;
+import nosql.neo4j.queries.QueryTwo;
+
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
@@ -58,13 +60,29 @@ public class App {
         queryOne.execute(new ArrayList<String>());
 
         /***************
+         * query 2
+         ***************/
+         QueryTwo queryTwo = new QueryTwo(graphDb);
+         List<String> argumentsTwo=new ArrayList<String>();
+         argumentsTwo.add("Asia");
+         argumentsTwo.add("97765");
+         argumentsTwo.add("nk");
+         queryTwo.execute(argumentsTwo);
+        
+         /***************
+          * query 3
+          ***************/
+//          QueryThree queryThree = new QueryThree(graphDb);
+//          queryThree.execute(new ArrayList<String>());
+        
+        /***************
          * query 4
          ***************/
         QueryFour q=new QueryFour(graphDb);
-        List<String> arguments=new ArrayList<String>();
-        arguments.add("Europa");
-        arguments.add("2014-01-01");
-        q.execute(arguments);
+        List<String> argumentsFour=new ArrayList<String>();
+        argumentsFour.add("Europa");
+        argumentsFour.add("2014-01-01");
+        q.execute(argumentsFour);
 
     	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
     	LoaderNation nationLoader=new LoaderNation(graphDb);
