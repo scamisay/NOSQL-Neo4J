@@ -1,11 +1,12 @@
 package nosql.neo4j.loaders;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
+import java.util.*;
 
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.tooling.GlobalGraphOperations;
 
 public abstract class LoaderDB {
 
@@ -74,4 +75,20 @@ public abstract class LoaderDB {
 
         return randomNum/100.;
     }
+
+    protected Node getRandomNode(List<Node> list){
+        int index = random.nextInt(list.size());
+        return list.get(index);
+    }
+
+    protected List<Node> getNodeListFromLabel(Label label){
+        List<Node> list=new ArrayList<Node>();
+        Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(label).iterator();
+        while(it.hasNext()){
+            list.add(it.next());
+        }
+        return list;
+    }
+
+
 }

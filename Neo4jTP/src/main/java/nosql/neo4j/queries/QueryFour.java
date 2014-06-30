@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import nosql.neo4j.loaders.LabelTypes;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -39,8 +40,8 @@ public class QueryFour extends QueryDB{
         ExecutionResult result;
     /*    try ( Transaction ignored = db.beginTx() )
         {*/
-        	result = engine.execute( "MATCH (r:Region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:Nation)-[:HAS_CUSTOMER]->(c:Customer)-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)<-[:PARTSUPP_HAS_LINEITEM]-(ps:PartSupplier),(ps)<-[:SUPPLIER_HAS_PARTSUPP]-(s:Supplier)<-[:HAS_SUPPLIER]-(n)  where (o.O_OrderDate>="+date1+") and (o.O_OrderDate<"+date2+") return  n.N_Name,sum(l.L_ExtendedPrice*(1-l.L_Discount)) as revenue order by revenue desc" );
-        	 printResults(result);
+        	result = engine.execute( "MATCH (r:"+ LabelTypes.Region.getDescription()+"{R_NAME:\""+region+"\"})-[:HAS_NATION]->(n:"+LabelTypes.Nation.getDescription()+")-[:HAS_CUSTOMER]->(c:"+LabelTypes.Customer.getDescription()+")-[:HAS_ORDER]->(o:"+LabelTypes.Order.getDescription()+")-[:HAS_LINEITEM]->(l:"+LabelTypes.LineItem.getDescription()+")<-[:PARTSUPP_HAS_LINEITEM]-(ps:"+LabelTypes.PartSupplier.getDescription()+"),(ps)<-[:SUPPLIER_HAS_PARTSUPP]-(s:"+LabelTypes.Supplier.getDescription()+")<-[:HAS_SUPPLIER]-(n)  where (o.O_ORDERDATE>="+date1+") and (o.O_ORDERDATE<"+date2+") return  n.N_NAME,sum(l.L_EXTENDEDPRICE*(1-l.L_DISCOUNT)) as revenue order by revenue desc" );
+            printResults(result);
              
             
         //}

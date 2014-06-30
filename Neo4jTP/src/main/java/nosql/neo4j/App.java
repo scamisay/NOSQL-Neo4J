@@ -28,7 +28,7 @@ import org.neo4j.kernel.impl.util.FileUtils;
  * 
  */
 public class App {
-	private static final String DB_PATH = "/home/teresa/Documentos/dataTPNOSQL/neo4j-hello-db";
+	private static final String DB_PATH = "dataTPNOSQL/neo4j-hello-db";
 
 	private static GraphCreator graphCreator = new GraphCreator();
 
@@ -111,24 +111,6 @@ public class App {
         argumentsFour.add("Europa");
         argumentsFour.add("2014-01-01");
         q.execute(argumentsFour);
-
-    	/*LoaderRegion regionLoader=new LoaderRegion(graphDb);
-    	LoaderNation nationLoader=new LoaderNation(graphDb);
-    	LoaderSupplier supplierLoader=new LoaderSupplier(graphDb);
-    	regionLoader.loadData();
-    	nationLoader.loadData();
-    	supplierLoader.loadData();
-    	Transaction tx=graphDb.beginTx();
-    	Iterable<Node> iterable=graphDb.findNodesByLabelAndProperty(DynamicLabel.label("region"), "name", "Oceanía");
-    	Iterator<Node> it=iterable.iterator();
-    	while(it.hasNext()){
-    		Node node=it.next();
-    		System.out.println((String)node.getProperty("name")+"  "+(String)node.getProperty("comment"));
-    	}
-    	
-    	tx.success();*/
-
-
 
         graphDb.shutdown();
         System.out.println( "Goodbye Cruel World!" );

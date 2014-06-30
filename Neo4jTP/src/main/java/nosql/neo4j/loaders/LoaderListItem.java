@@ -45,39 +45,22 @@ public class LoaderListItem extends LoaderDB{
         Label lineItem=DynamicLabel.label(LabelTypes.LineItem.name());
         Label order=DynamicLabel.label(LabelTypes.Order.name());
         Label supplier=DynamicLabel.label(LabelTypes.Supplier.name());
-        Label part=DynamicLabel.label(LabelTypes.Part.name());
+        Label partSupplier=DynamicLabel.label(LabelTypes.PartSupplier.name());
 
-        List<Node> suppliersNodes=new ArrayList<Node>();
-        Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(supplier).iterator();
-        while(it.hasNext()){
-        	suppliersNodes.add(it.next());
-        }
-        
-        List<Node> ordersNodes=new ArrayList<Node>();
-        it=GlobalGraphOperations.at(db).getAllNodesWithLabel(order).iterator();
-        while(it.hasNext()){
-        	ordersNodes.add(it.next());
-        }
-        
+        List<Node> suppliersNodes = getNodeListFromLabel(supplier);
+        List<Node> ordersNodes = getNodeListFromLabel(order);
+        List<Node> partSuppliersNodes = getNodeListFromLabel(partSupplier);
 
         for (int i = 1; i <= maxValues; ++i) {
             Node lineitemNode = db.createNode(lineItem);
 
-            // L_OrderKey
-            int index = random.nextInt(ordersNodes.size());
-            Node orderNode = ordersNodes.get(index);
+            Node orderNode = getRandomNode(ordersNodes);
             orderNode.createRelationshipTo(lineitemNode, RelTypes.HAS_LINEITEM);
 
+            Node partSupp = getRandomNode(partSuppliersNodes);
+            partSupp.createRelationshipTo(lineitemNode, RelTypes.PARTSUPP_HAS_LINEITEM);
 
-            //Integer id = orderIds.get(index);
-            //Integer id = (Integer)orderNode.getProperty("O_OrderKey");
-
-            /*if (lineItemIds.get(id) == null) lineItemIds.put(id, 1000);
-            Integer lineId = lineItemIds.get(id) + 1;
-            lineItemIds.put(id, lineId);
-*/
-            int suppIndex = random.nextInt(suppliersNodes.size());
-            Node supplierNode = suppliersNodes.get(suppIndex);
+            Node supplierNode = getRandomNode(suppliersNodes);
             Iterator<Relationship> partIt=supplierNode.getRelationships().iterator();
             
             List<Node> partNodes=new ArrayList<Node>();
@@ -85,11 +68,8 @@ public class LoaderListItem extends LoaderDB{
             	partNodes.add(partIt.next().getEndNode());
             }
             
-            
             if(!partNodes.isEmpty()){
-                int partIndex = random.nextInt(partNodes.size());
-                Node partNode = partNodes.get(partIndex);
-
+                Node partNode = getRandomNode(partNodes);
                 lineitemNode.createRelationshipTo(partNode, RelTypes.IS_MADE_OF);
             }
 
