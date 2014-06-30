@@ -39,7 +39,7 @@ public class QueryFour extends QueryDB{
         ExecutionResult result;
     /*    try ( Transaction ignored = db.beginTx() )
         {*/
-        	result = engine.execute( "MATCH (r:region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:nation)-[:HAS_CUSTOMER]->(c:Customer)-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)<-[:PARTSUPP_HAS_LINEITEM]-(ps:PartSupplier),(ps)<-[:SUPPLIER_HAS_PARTSUPP]-(s:Supplier)<-[:HAS_SUPPLIER]-(n)  where (o.O_OrderDate>="+date1+") and (o.O_OrderDate<"+date2+") return  n.N_Name,sum(l.L_ExtendedPrice*(1-l.L_Discount)) as revenue order by revenue desc" );
+        	result = engine.execute( "MATCH (r:Region{R_Name:\""+region+"\"})-[:HAS_NATION]->(n:Nation)-[:HAS_CUSTOMER]->(c:Customer)-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)<-[:PARTSUPP_HAS_LINEITEM]-(ps:PartSupplier),(ps)<-[:SUPPLIER_HAS_PARTSUPP]-(s:Supplier)<-[:HAS_SUPPLIER]-(n)  where (o.O_OrderDate>="+date1+") and (o.O_OrderDate<"+date2+") return  n.N_Name,sum(l.L_ExtendedPrice*(1-l.L_Discount)) as revenue order by revenue desc" );
         	 printResults(result);
              
             
