@@ -34,8 +34,8 @@ public class LoaderSupplier extends LoaderDB{
 				"Nueva Zelanda", "Perú", "Noruega", "Kazajstán", "Venezuela",
 				"Puerto Rico", "República del Congo" };
 
-		Label supplier = DynamicLabel.label("supplier");
-		Label nation = DynamicLabel.label("nation");
+		Label supplier = DynamicLabel.label(LabelTypes.Supplier.name());
+		Label nation = DynamicLabel.label(LabelTypes.Nation.name());
 		
         // S_Name, S_Address, S_Phone, S_AcctBal, S_Comment
 

@@ -3,12 +3,7 @@ package nosql.neo4j;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import nosql.neo4j.loaders.*;
 import nosql.neo4j.queries.QueryFour;
@@ -16,17 +11,10 @@ import nosql.neo4j.queries.QueryOne;
 import nosql.neo4j.queries.QueryThree;
 import nosql.neo4j.queries.QueryTwo;
 
-import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
-import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.graphdb.schema.IndexDefinition;
-import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.kernel.impl.util.FileUtils;
 
 /**
@@ -40,38 +28,44 @@ public class App {
 
 	public static void main(String[] args) {
 		/* elimino y creo la base */
-		clearDb();
+		dropDatabase();
 		GraphDatabaseService graphDb;
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
 		registerShutdownHook(graphDb);
 
 		System.out.println("Hello World!");
 
-        //graphCreator.initialInsert(graphDb);
-
         /***************************
          * create and load database
          **************************/
-        LoaderRegion loaderRegion = new LoaderRegion(graphDb);
-        loaderRegion.loadData();
+        Transaction tx = graphDb.beginTx();
 
-        LoaderNation loaderNation = new LoaderNation(graphDb);
-        loaderNation.loadData();
+        try {
+            LoaderRegion loaderRegion = new LoaderRegion(graphDb);
+            loaderRegion.loadData();
 
-        LoaderSupplier loaderSupplier = new LoaderSupplier(graphDb);
-        loaderSupplier.loadData();
+            LoaderNation loaderNation = new LoaderNation(graphDb);
+            loaderNation.loadData();
 
-        LoaderPart loaderPart = new LoaderPart(graphDb);
-        loaderPart.loadData();
+            LoaderSupplier loaderSupplier = new LoaderSupplier(graphDb);
+            loaderSupplier.loadData();
 
-        LoaderCustomer loaderCustomer = new LoaderCustomer(graphDb);
-        loaderCustomer.loadData();
+            LoaderPart loaderPart = new LoaderPart(graphDb);
+            loaderPart.loadData();
 
-        LoaderOrder loaderOrder = new LoaderOrder(graphDb);
-        loaderOrder.loadData();
+            LoaderCustomer loaderCustomer = new LoaderCustomer(graphDb);
+            loaderCustomer.loadData();
 
-        LoaderListItem loaderListItem = new LoaderListItem(graphDb);
-        loaderListItem.loadData();
+            LoaderOrder loaderOrder = new LoaderOrder(graphDb);
+            loaderOrder.loadData();
+
+            LoaderListItem loaderListItem = new LoaderListItem(graphDb);
+            loaderListItem.loadData();
+
+            tx.success();
+        }finally {
+            tx.finish();
+        }
 
 
         /***************
@@ -131,7 +125,7 @@ public class App {
         System.out.println( "Goodbye Cruel World!" );
 	}
 
-	private static void clearDb() {
+	private static void dropDatabase() {
 		try {
 			FileUtils.deleteRecursively(new File(DB_PATH));
 		} catch (IOException e) {

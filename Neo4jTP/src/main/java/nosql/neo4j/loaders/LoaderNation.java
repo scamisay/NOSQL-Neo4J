@@ -27,8 +27,8 @@ public class LoaderNation extends LoaderDB{
 		
 		String[] nations={"Argentina","Brasil","Egipto","Rusia","Italia","Japón","China","Sudáfrica","Estados Unidos","Inglaterra","Colombia","Arabia Saudita","Australia","Grecia","México","España","Nigeria","Tailandia","Nueva Zelanda","Perú","Noruega","Kazajstán","Venezuela","Puerto Rico","República del Congo"};
 		String[] regions={"América","América","África","Europa","Europa","Asia","Asia","África","América","Europa","América","Asia","Oceanía","Europa","América","Europa","África","Asia","Oceanía","América","Europa","Asia","América","América","África"};
-		Label nation= DynamicLabel.label("nation");
-		Label region= DynamicLabel.label("region");
+		Label nation= DynamicLabel.label(LabelTypes.Nation.name());
+		Label region= DynamicLabel.label(LabelTypes.Region.name());
 		for(int i=0;i<nations.length;i++){
 			String s=nations[i];
 			String r=regions[i];

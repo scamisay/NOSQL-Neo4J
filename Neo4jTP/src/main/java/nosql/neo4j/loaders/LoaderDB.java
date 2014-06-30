@@ -56,9 +56,22 @@ public abstract class LoaderDB {
         calendar.add(Calendar.DAY_OF_YEAR, random.nextInt(10000)-5000);
         return new java.sql.Date(calendar.getTimeInMillis());
     }
-	
+
+    protected Integer generateRandomInteger(int min, int max){
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
 	
 	public abstract void loadData();
 
-	
+    protected double generateRandomDouble(int min, int max){
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum/100.;
+    }
 }

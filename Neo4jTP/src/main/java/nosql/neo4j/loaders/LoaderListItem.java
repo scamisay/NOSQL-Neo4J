@@ -32,19 +32,14 @@ public class LoaderListItem extends LoaderDB{
 
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
-		
-		// L_OrderKey, L_PartKey, L_SuppKey, L_LineNumber, L_Quantity, L_ExtendedPrice, L_Discount,
-        // L_Tax, L_ReturnFlag, L_LineStatus, L_ShipDate, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
-
-
-
 
         int maxValues = (int) (SF * 6000000);
-        Label lineItem=DynamicLabel.label("lineItem");
-        Label order=DynamicLabel.label("order");
-        Label supplier=DynamicLabel.label("supplier");
-        Label part=DynamicLabel.label("part");
+
+        Label lineItem=DynamicLabel.label(LabelTypes.LineItem.name());
+        Label order=DynamicLabel.label(LabelTypes.Order.name());
+        Label supplier=DynamicLabel.label(LabelTypes.Supplier.name());
+        Label part=DynamicLabel.label(LabelTypes.Part.name());
+
         List<Node> suppliersNodes=new ArrayList<Node>();
         Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(supplier).iterator();
         while(it.hasNext()){
@@ -93,33 +88,31 @@ public class LoaderListItem extends LoaderDB{
             
             lineitemNode.createRelationshipTo(partNode, RelTypes.IS_MADE_OF);
             lineitemNode.createRelationshipTo(supplierNode,RelTypes.SUPPLIED_BY);
+
             //lineitemNode.setProperty("lineNumber", lineId);
-            lineitemNode.setProperty("quantity", getRandomInteger());
-            lineitemNode.setProperty("extendedPrice", getRandomDouble(13));
-            lineitemNode.setProperty("discount", getRandomDouble(13));
-            lineitemNode.setProperty("tax", getRandomDouble(13));
-            lineitemNode.setProperty("returnFlag", getRandomString(64));
-            lineitemNode.setProperty("lineStatus", getRandomString(64));
+            lineitemNode.setProperty("L_QUANTITY", generateRandomInteger(1, 10));
+            lineitemNode.setProperty("L_EXTENDEDPRICE", generateRandomInteger(1, 1000));
+            lineitemNode.setProperty("L_DISCOUNT", generateRandomDouble(1, 70));
+            lineitemNode.setProperty("L_TAX", generateRandomDouble(1, 40));
+            lineitemNode.setProperty("L_RETURNFLAG", "r");
+            lineitemNode.setProperty("L_LINESTATUS", "a");
             // With probability 0.05, set the date to Apr 30 2013
             if (random.nextInt(20) == 0) {
-                Calendar calendar = new GregorianCalendar(2013,4,30);
-                lineitemNode.setProperty("shipDate", calendar.getTime().getTime());
+                Calendar calendar = new GregorianCalendar(2014,5,25);
+                lineitemNode.setProperty("L_SHIPDATE", calendar.getTime().getTime());
             }
             else
-                lineitemNode.setProperty("shipDate", getRandomDate().getTime());
-            lineitemNode.setProperty("commitDate", getRandomDate().getTime());
+                lineitemNode.setProperty("L_SHIPDATE", getRandomDate().getTime());
+            lineitemNode.setProperty("L_COMMITDATE", getRandomDate().getTime());
             if (random.nextInt(20) != 0)
-                lineitemNode.setProperty("receiptDate", getRandomDate().getTime());
-            lineitemNode.setProperty("shipInstruct", getRandomString(64));
-            lineitemNode.setProperty("shipMode", getRandomString(64));
+                lineitemNode.setProperty("L_RECEIPTDATE", getRandomDate().getTime());
+            lineitemNode.setProperty("L_SHIPINSTRUCT", getRandomString(64));
+            lineitemNode.setProperty("L_SHIPMODE", getRandomString(64));
             if (random.nextInt(20) != 0)
-                lineitemNode.setProperty("comment", getRandomString(64));
+                lineitemNode.setProperty("L_COMMENT", getRandomString(64));
 
-            
         }
 
-		tx.success();
-		
 	}
 
 	

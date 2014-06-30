@@ -17,10 +17,10 @@ public class LoaderRegion extends LoaderDB{
 	
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
+		/*Transaction tx = db.beginTx();*/
 		String[] regions={"América","Europa","Asia","África","Oceanía"};
 		
-		Label region= DynamicLabel.label("region");
+		Label region= DynamicLabel.label(LabelTypes.Region.name());
 		for(int i=0;i<regions.length;i++){
 			String r=regions[i];
 			Node node=db.createNode(region);
@@ -29,7 +29,7 @@ public class LoaderRegion extends LoaderDB{
 			
 		}
 		
-		tx.success();
+		/*tx.success();*/
 	}
 
 }

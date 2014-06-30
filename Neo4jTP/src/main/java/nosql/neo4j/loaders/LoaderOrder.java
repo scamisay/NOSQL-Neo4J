@@ -32,9 +32,9 @@ public class LoaderOrder extends LoaderDB{
 
 		// O_OrderStatus, O_TotalPrice, O_OrderDate, O_OrderPriority, O_Clerk, O_ShipPriority, O_Comment, skip
 
-		Label order=DynamicLabel.label("order");
-		Label customer=DynamicLabel.label("customer");
-		List<Node> customersNodes=new ArrayList<Node>();
+		Label order=DynamicLabel.label(LabelTypes.Order.name());
+		Label customer=DynamicLabel.label(LabelTypes.Customer.name());
+		List<Node> customersNodes = new ArrayList<Node>();
         Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(customer).iterator();
         while(it.hasNext()){
         	customersNodes.add(it.next());

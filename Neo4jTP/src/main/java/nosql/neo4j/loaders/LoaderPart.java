@@ -33,19 +33,18 @@ public class LoaderPart extends LoaderDB{
 
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
+/*		Transaction tx = db.beginTx();*/
 		int maxValues = (int) (SF * 200000);
-        Label part=DynamicLabel.label("part");
-        Label supplier=DynamicLabel.label("supplier");
+
+        Label part=DynamicLabel.label(LabelTypes.Part.name());
+        Label supplier=DynamicLabel.label(LabelTypes.Supplier.name());
+
         List<Node> suppliersNodes = new ArrayList<Node>();
         Iterator<Node> it=GlobalGraphOperations.at(db).getAllNodesWithLabel(supplier).iterator();
+
         while(it.hasNext()){
         	suppliersNodes.add(it.next());
         }
-        
-        
-        
-        
         
         int suppliersperpart=(int) Math.ceil((SF*800000)/maxValues);
 		for (int i = 1; i <= maxValues; ++i) {
@@ -85,12 +84,10 @@ public class LoaderPart extends LoaderDB{
             provide.setProperty("availQty", getRandomInteger());
             provide.setProperty("supplyCost", getRandomDouble(13));
             provide.setProperty("comment", getRandomString(200));
-            
-            
-            
+
             
         }
-		tx.success();
+/*		tx.success();*/
 		
 	}
 

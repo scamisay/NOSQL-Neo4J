@@ -22,11 +22,12 @@ public class LoaderCustomer extends LoaderDB {
 	
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
-        Label customer=DynamicLabel.label("customer");
-        Label nation=DynamicLabel.label("nation");
+	/*	Transaction tx = db.beginTx();*/
+        Label customer=DynamicLabel.label(LabelTypes.Customer.name());
+        Label nation=DynamicLabel.label(LabelTypes.Nation.name());
+
         String[] nations={"Argentina","Brasil","Egipto","Rusia","Italia","Japón","China","Sudáfrica","Estados Unidos","Inglaterra","Colombia","Arabia Saudita","Australia","Grecia","México","España","Nigeria","Tailandia","Nueva Zelanda","Perú","Noruega","Kazajstán","Venezuela","Puerto Rico","República del Congo"};
-		// C_CustKey, C_Name, C_Address, C_NationKey, C_Phone, C_AcctBal, C_MktSegment, C_Comment, skip
+// C_CustKey, C_Name, C_Address, C_NationKey, C_Phone, C_AcctBal, C_MktSegment, C_Comment, skip
 		
 		int maxValues = (int) (SF * 150000);
 		for (int i = 1; i <= maxValues; ++i) {
@@ -59,7 +60,7 @@ public class LoaderCustomer extends LoaderDB {
 			
 			
 		}
-		tx.success();
+		/*tx.success();*/
 		
 	}
 
