@@ -105,7 +105,7 @@ public class App {
         q.execute(argumentsFour);
 
 
-        //Todo: ver si se puede borrar el metodo shutdown
+        
         graphDb.shutdown();
 	}
 
