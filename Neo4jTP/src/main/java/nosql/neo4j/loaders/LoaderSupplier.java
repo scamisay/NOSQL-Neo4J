@@ -48,7 +48,7 @@ public class LoaderSupplier extends LoaderDB{
             
             int index = random.nextInt(nations.length);
             String nationName=nations[index];
-            Iterable<Node> reg=db.findNodesByLabelAndProperty(nation, "S_NAME", nationName);
+            Iterable<Node> reg=db.findNodesByLabelAndProperty(nation, "N_NAME", nationName);
 			Iterator<Node> it=reg.iterator();
 			if(it.hasNext()){
 				Node nationNode=it.next();

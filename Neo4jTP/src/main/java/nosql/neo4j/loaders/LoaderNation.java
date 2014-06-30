@@ -34,7 +34,7 @@ public class LoaderNation extends LoaderDB{
 			Node node=db.createNode(nation);
 			node.setProperty("N_NAME", s);
 			node.setProperty("N_COMMENT", s.concat("Pais Comentario"));
-			Iterable<Node> reg=db.findNodesByLabelAndProperty(region, "name", r);
+			Iterable<Node> reg=db.findNodesByLabelAndProperty(region, "R_NAME", r);
 			Iterator<Node> it=reg.iterator();
 			if(it.hasNext()){
 				Node regionNode=it.next();
