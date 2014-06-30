@@ -98,7 +98,7 @@ public class App {
         /***************
          * query 4
          ***************/
-        QueryFour q=new QueryFour(graphDb);
+        QueryFour q = new QueryFour(graphDb);
         List<String> argumentsFour=new ArrayList<String>();
         argumentsFour.add("Europa");
         argumentsFour.add("2014-01-01");

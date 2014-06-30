@@ -1,14 +1,8 @@
 package nosql.neo4j.loaders;
 
+import org.neo4j.graphdb.*;
+
 import java.util.Iterator;
-
-import nosql.neo4j.loaders.GraphCreator.RelTypes;
-
-import org.neo4j.graphdb.DynamicLabel;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
 
 public class LoaderSupplier extends LoaderDB{
 
