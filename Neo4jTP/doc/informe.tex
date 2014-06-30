@@ -158,7 +158,7 @@
 %\boldmath
 
 
-En el presente informe se describe el dise\~no de una base de datos de grafos, dados un schema y una serie de consultas a dicha base. El motor de base de datos utilizado es neo4j en el lenguaje Java.
+En el presente informe se describe el dise\~no de una base de datos de grafos, dados un esquema y una serie de consultas a dicha base. El motor de base de datos utilizado es neo4j en el lenguaje Java.
 \end{abstract}
 
 \renewcommand{\IEEEkeywordsname}{Palabras claves}
@@ -175,29 +175,27 @@ En el presente informe se describe el dise\~no de una base de datos de grafos, d
 \section{Introducci\'on}
 
 
-\lettrine{E}{ }n la actualidad, cada vez m\'as, se requieren consultas eficientes y r\'apidas a bases de datos que manejan grandes vol\'umenes de informaci\'on. Es de esta necesidad que surgen las bases de datos NOSQL, que proponen flexibilizar la estructura de dichas bases seg\'un las reglas de negocio. En este caso, se utilizar\'a una base de datos de grafos (en donde cada tupla de datos en el modelo relacional es un nodo) con el motor Neo4J. El problema a resolver es el "TPC- H benchmark" .\\
-En la siguiente secci\'on,  se describen los tipos de nodos utilizados, as\'i como las relaciones entre ellos y los \'indices correspondientes.
+\lettrine{E}{ }n la actualidad, cada vez m\'as, se requieren consultas eficientes y r\'apidas a bases de datos que manejan grandes vol\'umenes de informaci\'on. Es de esta necesidad que surgen las bases de datos NOSQL, que proponen flexibilizar la estructura de dichas bases seg\'un las reglas de negocio. En este caso, se utiliza una base de datos de grafos (en donde cada tupla de datos en el modelo relacional es un nodo) con el motor Neo4J. El problema a resolver es el "TPC - H benchmark".\\
+En la siguiente secci\'on,  se explican los tipos de nodos empleados, as\'i como las relaciones entre ellos y los \'indices pertinentes.
 
 % You must have at least 2 lines in the paragraph with the drop letter
 % (should never be an issue)
 
 \section{Estructura utilizada}
-Siempre teniendo en cuenta las consultas que deb\'ian realizarse a la base de datos y el tama\~no de  las tablas correspondientes al modelo relacional, se consider\'o oportuno que los nodos principales fueran: Region, Nation, Part, Supplier, Customer, Order y LineItem; a cada uno de ellos, les corresponde una etiqueta (o \textit{label}) del mismo nombre.\\
-El nodo region tiene los campos R\_Name y R\_Comment (ambos textos variables), y est\'a relacionado de manera unidireccional con el nodo nation por medio de HAS\_NATION.\\
-El nodo Nation tiene los campos N\_Name y N\_Comment (ambos son de texto de longitud variable), y tiene las relaciones: HAS\_CUSTOMER (unidireccional, de nation a customer), y HAS\_SUPPLIER (unidireccional, de nation a customer).\\
-El nodo Part tiene los campos: P\_PartKey, P\_Name, P\_Mfgr, P\_Brand, P\_Type, P\_Size, P\_Container, P\_RetailPrice y P\_Comment \\
-El nodo Supplier \\
-El nodo Customer  \\
-El nodo Order  \\
-El nodo LineItem  \\
-
-Adem\'as, para lograr que las consultas fueran m\'as eficientes se agregaron \'indices en: L\_ShipDate en LineItem, O\_OrderDate en Order, C\_MktSegment en Customer, P\_Size y P\_Type en Part, y PS\_SupplyCost en PartSupplier. Para esto tambi\'en se consider\'o que Neo4J sabe cu\'ando utilizar un \'indice u otro o ninguno. 
+Siempre teniendo en cuenta las consultas que deb\'ian realizarse a la base de datos, y el tama\~no de  las tablas correspondientes al modelo relacional, se ha considerado oportuno que los nodos principales fueran: Region, Nation, Part, Supplier, Customer, Order, PartSupplier y LineItem; a cada uno de ellos, les corresponde una etiqueta (o \textit{label}) del mismo nombre.\\
+El nodo Region tiene los campos: R\_Name y R\_Comment (ambos textos variables), y est\'a relacionado de manera unidireccional con el nodo Nation por medio de HAS\_NATION.\\
+El nodo Nation tiene los campos: N\_Name y N\_Comment (ambos son de texto de longitud variable), y tiene las relaciones: HAS\_CUSTOMER (unidireccional, de Nation a Customer), y HAS\_SUPPLIER (unidireccional, de Nation a Supplier).\\
+El nodo Part tiene los campos: P\_PartKey, P\_Name, P\_Mfgr, P\_Brand, P\_Type, P\_Size, P\_Container, P\_RetailPrice y P\_Comment. \\
+El nodo Supplier tiene los campos: S\_Name, S\_Address, S\_Phone, S\_Acctbal, S\_Comment, y est\'a relacionado con PartSupplier por medio de SUPPLIER\_HAS\_PARTSUPP. \\
+El nodo Customer tiene los campos: \\ C\_Name, c\_Address, C\_Phone, C\_AcctBal, C\_MktSegment y C\_Comment. A su vez, se leciona con el nodo Order por medio de HAS\_ORDER. \\
+El nodo Order tiene los campos: O\_OrderKey, O\_OrderStatus, O\_TotalPrice, O\_OrderDate, O\_OrderPriority, O\_Clerk,  O\_ShipPriority y O\_Comment. \\
+El nodo LineItem  tiene los campos: L\_Quantity, L\_ExtendedPrice, L\_Discount, L\_Tax, L\_ReturnFlag, L\_LineStatus, L\_ShipDate, L\_CommitDate, L\_ReceiptDate, L\_ShipInstruct, L\_ShipMode y L\_Comment, y est\'a conectado con el nodo Supplier por medio de SUPPLIED\_BY, y con el nodo Part por medio de IS\_MADE\_OF.\\\
+El nodo PartSupplier tiene los siguientes campos: PS\_AvailQty y PS\_SupplyCost (ambos campos num\'ericos), y PS\_Comment (texto), y se relaciona con el nodo Part por medio de la relaci\'on undireccional BELONGS\_TO\_PART, y con el nodo LineItem por medio de PARTSUPP\_HAS\_LINEITEM.\\
+Asimismo, para lograr que las consultas fueran m\'as eficientes, se han agregado \'indices en: L\_ShipDate en LineItem, O\_OrderDate en Order, C\_MktSegment en Customer, P\_Size y P\_Type en Part. Para esto, tambi\'en se ha tenido en cuenta que Neo4J sabe cu\'ando aplicar un \'indice u otro o ninguno. 
 \renewcommand{\refname}{Bibliograf\'ia}
 \begin{thebibliography}{1}
-\bibitem{Libro}
-John Mattews and Kurtis Fink, \emph{M\'etodos Num\'ericos con Matlab, Fecha de publicacion: Mayo 2000 | ISBN-10: 8483221810 | ISBN-13: 978-8483221815 | Edicion: 3}
+\bibitem{Link} http://docs.neo4j.org/chunked/milestone/, Manual de Neo4J versi\'on 2.1.2
 \bibitem{Libro} Apuntes de la C\'atedra.
-\bibitem{Libro} Consultas a la C\'atedra, a quien agradecemos su gentil colaboraci\'on, por su experta ayuda  en la preparaci\'on de este art\'iculo.
 
 %\bibitem{Filminas}
 %Maria Cristina Parpaglione, \emph{Clase 1-2-3.}
