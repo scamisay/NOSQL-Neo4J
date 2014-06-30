@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import nosql.neo4j.loaders.*;
 import nosql.neo4j.queries.QueryFour;
@@ -11,10 +12,15 @@ import nosql.neo4j.queries.QueryOne;
 import nosql.neo4j.queries.QueryThree;
 import nosql.neo4j.queries.QueryTwo;
 
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.graphdb.schema.IndexDefinition;
+import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.kernel.impl.util.FileUtils;
 
 /**
@@ -22,7 +28,7 @@ import org.neo4j.kernel.impl.util.FileUtils;
  * 
  */
 public class App {
-	private static final String DB_PATH = "dataTPNOSQL/neo4j-hello-db";
+	private static final String DB_PATH = "/home/teresa/Documentos/dataTPNOSQL/neo4j-hello-db";
 
 	private static GraphCreator graphCreator = new GraphCreator();
 
@@ -32,9 +38,9 @@ public class App {
 		GraphDatabaseService graphDb;
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
 		registerShutdownHook(graphDb);
-
+		createSchema(graphDb);
 		System.out.println("Hello World!");
-
+		
         /***************************
          * create and load database
          **************************/
@@ -147,9 +153,50 @@ public class App {
 			}
 		});
 	}
-
-	private static enum RelTypes implements RelationshipType {
-		KNOWS
+	
+	private static void createSchema(GraphDatabaseService graphDb){
+		ExecutionEngine engine = new ExecutionEngine( graphDb );	
+			
+		try ( Transaction tx = graphDb.beginTx() )
+		{
+		    ExecutionResult result = engine.execute("CREATE INDEX ON :Customer(C_MKTSEGMENT)");
+		    tx.success();
+		}
+		
+		engine= new ExecutionEngine( graphDb );
+		
+		try ( Transaction tx = graphDb.beginTx() )
+		{
+		    ExecutionResult result = engine.execute("CREATE INDEX ON :LineItem(L_SHIPDATE)");
+		    tx.success();
+		}
+		
+		engine= new ExecutionEngine( graphDb );
+		
+		try ( Transaction tx = graphDb.beginTx() )
+		{
+		    ExecutionResult result = engine.execute("CREATE INDEX ON :Order(O_ORDERDATE)");
+		    tx.success();
+		}
+		
+		engine= new ExecutionEngine( graphDb );
+		
+		try ( Transaction tx = graphDb.beginTx() )
+		{
+		    ExecutionResult result = engine.execute("CREATE INDEX ON :Part(P_SIZE)");
+		    tx.success();
+		}
+		
+		engine= new ExecutionEngine( graphDb );
+		
+		try ( Transaction tx = graphDb.beginTx() )
+		{
+		    ExecutionResult result = engine.execute("CREATE INDEX ON :Order(O_TYPE)");
+		    tx.success();
+		}
+		
 	}
+
+	
 
 }
