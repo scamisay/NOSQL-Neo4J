@@ -32,6 +32,13 @@ public class LoaderListItem extends LoaderDB{
 
 	@Override
 	public void loadData() {
+		Transaction tx = db.beginTx();
+
+// L_OrderKey, L_PartKey, L_SuppKey, L_LineNumber, L_Quantity, L_ExtendedPrice, L_Discount,
+// L_Tax, L_ReturnFlag, L_LineStatus, L_ShipDate, L_CommitDate, L_ReceiptDate, L_ShipInstruct, L_ShipMode, L_Comment, skip
+
+
+
 
         int maxValues = (int) (SF * 6000000);
 
@@ -52,10 +59,7 @@ public class LoaderListItem extends LoaderDB{
         	ordersNodes.add(it.next());
         }
         
-        
-        
-        
-        
+
         for (int i = 1; i <= maxValues; ++i) {
             Node lineitemNode = db.createNode(lineItem);
 
@@ -63,7 +67,7 @@ public class LoaderListItem extends LoaderDB{
             int index = random.nextInt(ordersNodes.size());
             Node orderNode = ordersNodes.get(index);
             orderNode.createRelationshipTo(lineitemNode, RelTypes.HAS_LINEITEM);
-            
+
 
             //Integer id = orderIds.get(index);
             //Integer id = (Integer)orderNode.getProperty("O_OrderKey");
@@ -82,11 +86,13 @@ public class LoaderListItem extends LoaderDB{
             }
             
             
-            
-            int partIndex = random.nextInt(partNodes.size());
-            Node partNode = partNodes.get(partIndex);
-            
-            lineitemNode.createRelationshipTo(partNode, RelTypes.IS_MADE_OF);
+            if(!partNodes.isEmpty()){
+                int partIndex = random.nextInt(partNodes.size());
+                Node partNode = partNodes.get(partIndex);
+
+                lineitemNode.createRelationshipTo(partNode, RelTypes.IS_MADE_OF);
+            }
+
             lineitemNode.createRelationshipTo(supplierNode,RelTypes.SUPPLIED_BY);
 
             //lineitemNode.setProperty("lineNumber", lineId);
@@ -111,7 +117,10 @@ public class LoaderListItem extends LoaderDB{
             if (random.nextInt(20) != 0)
                 lineitemNode.setProperty("L_COMMENT", getRandomString(64));
 
+
         }
+
+		tx.success();
 
 	}
 

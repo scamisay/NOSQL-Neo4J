@@ -53,6 +53,9 @@ public class App {
             LoaderPart loaderPart = new LoaderPart(graphDb);
             loaderPart.loadData();
 
+            LoaderPartSupplier loaderPartSupplier = new LoaderPartSupplier(graphDb);
+            loaderPartSupplier.loadData();
+
             LoaderCustomer loaderCustomer = new LoaderCustomer(graphDb);
             loaderCustomer.loadData();
 

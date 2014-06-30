@@ -10,7 +10,8 @@ public enum LabelTypes {
     Part(3,"Part"),
     Customer(4,"Customer"),
     Order(5,"Order"),
-    LineItem(6,"LineItem");
+    LineItem(6,"LineItem"),
+    PartSupplier(7,"PartSupplier");
 
     private String desc;
     private Integer id;

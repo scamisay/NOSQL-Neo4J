@@ -22,19 +22,18 @@ public class LoaderNation extends LoaderDB{
 
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
-		
-		
+        Transaction tx = db.beginTx();
 		String[] nations={"Argentina","Brasil","Egipto","Rusia","Italia","Japón","China","Sudáfrica","Estados Unidos","Inglaterra","Colombia","Arabia Saudita","Australia","Grecia","México","España","Nigeria","Tailandia","Nueva Zelanda","Perú","Noruega","Kazajstán","Venezuela","Puerto Rico","República del Congo"};
 		String[] regions={"América","América","África","Europa","Europa","Asia","Asia","África","América","Europa","América","Asia","Oceanía","Europa","América","Europa","África","Asia","Oceanía","América","Europa","Asia","América","América","África"};
 		Label nation= DynamicLabel.label(LabelTypes.Nation.name());
 		Label region= DynamicLabel.label(LabelTypes.Region.name());
+
 		for(int i=0;i<nations.length;i++){
 			String s=nations[i];
 			String r=regions[i];
 			Node node=db.createNode(nation);
-			node.setProperty("name", s);
-			node.setProperty("comment", s.concat("Pais Comentario"));
+			node.setProperty("N_NAME", s);
+			node.setProperty("N_COMMENT", s.concat("Pais Comentario"));
 			Iterable<Node> reg=db.findNodesByLabelAndProperty(region, "name", r);
 			Iterator<Node> it=reg.iterator();
 			if(it.hasNext()){
@@ -43,8 +42,7 @@ public class LoaderNation extends LoaderDB{
 			}
 		
 		}
-		tx.success();
-		
+        tx.success();
 	}
 
 

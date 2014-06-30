@@ -26,7 +26,7 @@ public class LoaderSupplier extends LoaderDB{
 
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
+        Transaction tx = db.beginTx();
 		String[] nations = { "Argentina", "Brasil", "Egipto", "Rusia",
 				"Italia", "Japón", "China", "Sudáfrica", "Estados Unidos",
 				"Inglaterra", "Colombia", "Arabia Saudita", "Australia",
@@ -37,34 +37,30 @@ public class LoaderSupplier extends LoaderDB{
 		Label supplier = DynamicLabel.label(LabelTypes.Supplier.name());
 		Label nation = DynamicLabel.label(LabelTypes.Nation.name());
 		
-        // S_Name, S_Address, S_Phone, S_AcctBal, S_Comment
-
         int maxValues = (int) (SF * 10000);
         for (int i = 1; i <= maxValues; ++i) {
             Node supplierNode = db.createNode(supplier);
 
             Integer id = getRandomInteger();
-            supplierNode.setProperty("name", getRandomString(64));
-            supplierNode.setProperty("address", getRandomString(64));
+            supplierNode.setProperty("S_NAME", getRandomString(64));
+            supplierNode.setProperty("S_ADDRESS", getRandomString(64));
 
             
             int index = random.nextInt(nations.length);
             String nationName=nations[index];
-            Iterable<Node> reg=db.findNodesByLabelAndProperty(nation, "name", nationName);
+            Iterable<Node> reg=db.findNodesByLabelAndProperty(nation, "S_NAME", nationName);
 			Iterator<Node> it=reg.iterator();
 			if(it.hasNext()){
 				Node nationNode=it.next();
 				nationNode.createRelationshipTo(supplierNode, RelTypes.HAS_SUPPLIER);
 			}
 
-
-            supplierNode.setProperty("phone", getRandomString(18));
-            supplierNode.setProperty("acctBal", getRandomDouble(13));
-            supplierNode.setProperty("comment", getRandomString(105));
+            supplierNode.setProperty("S_PHONE", getRandomString(18));
+            supplierNode.setProperty("S_ACCTBAL", getRandomDouble(13));
+            supplierNode.setProperty("S_COMMENT", getRandomString(105));
         }
 		
-
-		tx.success();
+        tx.success();
 	}
 
 	

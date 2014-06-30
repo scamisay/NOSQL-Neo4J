@@ -27,11 +27,7 @@ public class LoaderOrder extends LoaderDB{
 
 	@Override
 	public void loadData() {
-		Transaction tx = db.beginTx();
-		
-
-		// O_OrderStatus, O_TotalPrice, O_OrderDate, O_OrderPriority, O_Clerk, O_ShipPriority, O_Comment, skip
-
+        Transaction tx = db.beginTx();
 		Label order=DynamicLabel.label(LabelTypes.Order.name());
 		Label customer=DynamicLabel.label(LabelTypes.Customer.name());
 		List<Node> customersNodes = new ArrayList<Node>();
@@ -39,8 +35,6 @@ public class LoaderOrder extends LoaderDB{
         while(it.hasNext()){
         	customersNodes.add(it.next());
         }
-		
-		
 		
         int maxValues = (int) (SF * 1500000);
         for (int i = 1; i <= maxValues; ++i) {
@@ -51,27 +45,15 @@ public class LoaderOrder extends LoaderDB{
             Node customerNode = customersNodes.get(index);
             customerNode.createRelationshipTo(orderNode, RelTypes.HAS_ORDER);
             
-            orderNode.setProperty("orderStatus", getRandomString(64));
-            orderNode.setProperty("totalPrice", getRandomInteger());
-            // With probability 0.05, set the date to be queried
-            if (random.nextInt(20) == 0) {
-                Calendar calendar = new GregorianCalendar(2013,4,29);
-                orderNode.setProperty("orderDate", calendar.getTime().getTime());
-            }
-            else
-                orderNode.setProperty("orderDate", getRandomDate().getTime());
-            orderNode.setProperty("orderPriority", getRandomString(15));
-            orderNode.setProperty("clerk", getRandomString(64));
-            orderNode.setProperty("shipPriority", getRandomInteger());
-            orderNode.setProperty("comment", getRandomString(80));
-            
-
+            orderNode.setProperty("O_ORDERSTATUS", getRandomString(64));
+            orderNode.setProperty("O_TOTALPRICE", getRandomInteger());
+            orderNode.setProperty("O_ORDERDATE", getRandomDate().getTime());
+            orderNode.setProperty("O_ORDERPRIORITY", getRandomString(15));
+            orderNode.setProperty("O_CLERK", getRandomString(64));
+            orderNode.setProperty("O_SHIPPRIORITY", getRandomInteger());
+            orderNode.setProperty("O_COMMENT", getRandomString(80));
         }
-
-		
-		
-		tx.success();
-		
+        tx.success();
 	}
 
 }
