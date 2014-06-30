@@ -31,6 +31,8 @@ public class LoaderPart extends LoaderDB{
         super(db);
     }
 
+    private List<Integer> partIds = new ArrayList<Integer>();
+
     @Override
     public void loadData() {
         Transaction tx = db.beginTx();
@@ -51,6 +53,10 @@ public class LoaderPart extends LoaderDB{
         for (int i = 1; i <= maxValues; ++i) {
             Node partNode = db.createNode(part);
 
+            Integer id = getRandomInteger();
+            while(partIds.contains(id)) id = getRandomInteger();
+            partIds.add(id);
+            partNode.setProperty("P_PARTKEY", id);
             partNode.setProperty("P_NAME", getRandomString(64));
             partNode.setProperty("P_MFGR", getRandomString(64));
             partNode.setProperty("P_BRAND", getRandomString(64));
