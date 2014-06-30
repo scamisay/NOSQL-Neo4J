@@ -1,0 +1,210 @@
+
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+  % IEEE Computer Society needs nocompress option
+  % requires cite.sty v4.0 or later (November 2003)
+  % \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  % \usepackage{cite}
+\fi
+
+\usepackage{amssymb}
+
+\usepackage{grffile}
+ \usepackage[pdftex]{graphicx}
+
+\usepackage{float}
+\usepackage{listings}
+\usepackage{perpage}
+\usepackage{lettrine}
+\MakeSorted{figure}
+\MakeSorted{table}
+
+
+\ifCLASSINFOpdf
+
+\else
+
+\fi
+
+
+\usepackage[cmex10]{amsmath}
+
+\usepackage{morefloats}
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%\usepackage[tight,normalsize,sf,SF]{subfigure}
+%\else
+%\usepackage[tight,footnotesize]{subfigure}
+%\fi
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. Computer Society papers
+% use a larger font and \sffamily font for their captions, hence the
+% additional options needed under compsoc mode. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley and Jeff Goldberg.
+% This package may be useful when used in conjunction with IEEEtran.cls'
+% captionsoff option. Some IEEE journals/societies require that submissions
+% have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.3.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% For subfigure.sty:
+% \let\MYorigsubfigure\subfigure
+% \renewcommand{\subfigure}[2][\relax]{\MYorigsubfigure[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat/subfig command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a
+% page by themselves.
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+\parskip 7.5pt
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor u-san-do u-sa-mos}
+
+\begin{document}
+
+
+\title{T\'opicos de NOSQL\\ \textit{ Base de Datos de Grafos: NEO4J} }
+
+
+\author{Santiago Camisay (47583) y
+       Teresa Fontanella De Santis (52455) 
+	\\~\IEEEmembership{Grupo 1 - Trabajo Pr\'actico - Instituto Tecnol\'ogico de Buenos Aires (ITBA)}
+	
+%\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem M. Shell is with the Department
+%of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
+%GA, 30332.\protect\\
+% note need leading \protect in front of \\ to get a newline within \thanks as
+% \\ is fragile and will error, could use \hfil\break instead.
+%E-mail: see http://www.michaelshell.org/contact.html
+%\IEEEcompsocthanksitem J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
+%\thanks{Manuscript received April 19, 2005; revised January 11, 2007.}
+}
+
+
+
+
+% for Computer Society papers, we must declare the abstract and index terms
+% PRIOR to the title within the \IEEEcompsoctitleabstractindextext IEEEtran
+% command as these need to go into the title area created by \maketitle.
+\IEEEcompsoctitleabstractindextext{%
+\renewcommand{\abstractname}{Resumen}
+
+\begin{abstract}
+%\boldmath
+
+
+En el presente informe se describe el dise\~no de una base de datos de grafos, dados un schema y una serie de consultas a dicha base. El motor de base de datos utilizado es neo4j en el lenguaje Java.
+\end{abstract}
+
+\renewcommand{\IEEEkeywordsname}{Palabras claves}
+\begin{IEEEkeywords}
+ NOSQL, neo4j, base de datos de grafos, TPC\- H benchmark.
+\end{IEEEkeywords}}
+
+\maketitle
+
+\IEEEdisplaynotcompsoctitleabstractindextext
+
+
+\IEEEpeerreviewmaketitle
+\section{Introducci\'on}
+
+
+\lettrine{E}{ }n la actualidad, cada vez m\'as, se requieren consultas eficientes y r\'apidas a bases de datos que manejan grandes vol\'umenes de informaci\'on. Es de esta necesidad que surgen las bases de datos NOSQL, que proponen flexibilizar la estructura de dichas bases seg\'un las reglas de negocio. En este caso, se utilizar\'a una base de datos de grafos (en donde cada tupla de datos en el modelo relacional es un nodo) con el motor Neo4J. El problema a resolver es el "TPC- H benchmark" .\\
+En la siguiente secci\'on,  se describen los tipos de nodos utilizados, as\'i como las relaciones entre ellos y los \'indices correspondientes.
+
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+
+\section{Estructura utilizada}
+Siempre teniendo en cuenta las consultas que deb\'ian realizarse a la base de datos y el tama\~no de  las tablas correspondientes al modelo relacional, se consider\'o oportuno que los nodos principales fueran: Region, Nation, Part, Supplier, Customer, Order y LineItem; a cada uno de ellos, les corresponde una etiqueta (o \textit{label}) del mismo nombre.\\
+El nodo region tiene los campos R\_Name y R\_Comment (ambos textos variables), y est\'a relacionado de manera unidireccional con el nodo nation por medio de HAS\_NATION.\\
+El nodo Nation tiene los campos N\_Name y N\_Comment (ambos son de texto de longitud variable), y tiene las relaciones: HAS\_CUSTOMER (unidireccional, de nation a customer), y HAS\_SUPPLIER (unidireccional, de nation a customer).\\
+El nodo Part tiene los campos: P\_PartKey, P\_Name, P\_Mfgr, P\_Brand, P\_Type, P\_Size, P\_Container, P\_RetailPrice y P\_Comment \\
+El nodo Supplier \\
+El nodo Customer  \\
+El nodo Order  \\
+El nodo LineItem  \\
+
+Adem\'as, para lograr que las consultas fueran m\'as eficientes se agregaron \'indices en: L\_ShipDate en LineItem, O\_OrderDate en Order, C\_MktSegment en Customer, P\_Size y P\_Type en Part, y PS\_SupplyCost en PartSupplier. Para esto tambi\'en se consider\'o que Neo4J sabe cu\'ando utilizar un \'indice u otro o ninguno. 
+\renewcommand{\refname}{Bibliograf\'ia}
+\begin{thebibliography}{1}
+\bibitem{Libro}
+John Mattews and Kurtis Fink, \emph{M\'etodos Num\'ericos con Matlab, Fecha de publicacion: Mayo 2000 | ISBN-10: 8483221810 | ISBN-13: 978-8483221815 | Edicion: 3}
+\bibitem{Libro} Apuntes de la C\'atedra.
+\bibitem{Libro} Consultas a la C\'atedra, a quien agradecemos su gentil colaboraci\'on, por su experta ayuda  en la preparaci\'on de este art\'iculo.
+
+%\bibitem{Filminas}
+%Maria Cristina Parpaglione, \emph{Clase 1-2-3.}
+%\bibitem{Link}
+%http://www.addictinggames.com/puzzle-games/gridlock.jsp, \emph{niveles del juego}
+\end{thebibliography}
+
+
+
+\end{document} 
