@@ -41,7 +41,7 @@ public class QueryThree extends QueryDB{
         
         ExecutionResult result;
         result = engine.execute( "MATCH (c:Customer{C_MKTSEGMENT:\""+mktsegment+"\"})-[:HAS_ORDER]->(o:Order)-[:HAS_LINEITEM]->(l:LineItem)  WHERE o.O_ORDERDATE<"+date1+" AND l.L_SHIPDATE> "+date2+" RETURN  o.O_ORDERKEY,sum(l.L_EXTENDEDPRICE*(1-l.L_DISCOUNT)) as revenue,o.O_ORDERDATE,o.O_SHIPPRIORITY ORDER BY revenue desc,o.O_ORDERDATE" );
-        printResults(result);
+        printResults(result, 3);
 
 
 		

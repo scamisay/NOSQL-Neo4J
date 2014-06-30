@@ -12,12 +12,8 @@ import org.neo4j.graphdb.Transaction;
 
 public class LoaderNation extends LoaderDB{
 
-	public LoaderNation(String db_path) {
-		super(db_path);
-	}
-	
-	public LoaderNation(GraphDatabaseService db){
-		super(db);
+	public LoaderNation(GraphDatabaseService db, float proportionalCoeficient){
+        super(db, proportionalCoeficient);
 	}
 
 	@Override
@@ -44,6 +40,11 @@ public class LoaderNation extends LoaderDB{
 		}
         tx.success();
 	}
+
+    @Override
+    protected float nodesToCreate() {
+        return 0;
+    }
 
 
 }

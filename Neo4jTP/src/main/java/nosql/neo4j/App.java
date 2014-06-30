@@ -1,74 +1,66 @@
 package nosql.neo4j;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import nosql.neo4j.loaders.*;
 import nosql.neo4j.queries.QueryFour;
 import nosql.neo4j.queries.QueryOne;
 import nosql.neo4j.queries.QueryThree;
 import nosql.neo4j.queries.QueryTwo;
-
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
-import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.graphdb.schema.IndexDefinition;
-import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.kernel.impl.util.FileUtils;
 
-/**
- * Hello world!
- * 
- */
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
+
+    //TODO: ponerle otro nombre a la base
 	private static final String DB_PATH = "dataTPNOSQL/neo4j-hello-db";
 
-	private static GraphCreator graphCreator = new GraphCreator();
-
 	public static void main(String[] args) {
-		/* elimino y creo la base */
 		dropDatabase();
 		GraphDatabaseService graphDb;
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
 		registerShutdownHook(graphDb);
-		createSchema(graphDb);
-		System.out.println("Hello World!");
-		
+
         /***************************
          * create and load database
          **************************/
+        createSchema(graphDb);
+
         Transaction tx = graphDb.beginTx();
 
         try {
-            LoaderRegion loaderRegion = new LoaderRegion(graphDb);
+            //este coeficiente cuando vale 1 lleva la creacion de la base a su maximo size
+            float proportionalCoeficient = 0.00333333f;
+
+            LoaderRegion loaderRegion = new LoaderRegion(graphDb, proportionalCoeficient);
             loaderRegion.loadData();
 
-            LoaderNation loaderNation = new LoaderNation(graphDb);
+            LoaderNation loaderNation = new LoaderNation(graphDb, proportionalCoeficient);
             loaderNation.loadData();
 
-            LoaderSupplier loaderSupplier = new LoaderSupplier(graphDb);
+            LoaderSupplier loaderSupplier = new LoaderSupplier(graphDb, proportionalCoeficient);
             loaderSupplier.loadData();
 
-            LoaderPart loaderPart = new LoaderPart(graphDb);
+            LoaderPart loaderPart = new LoaderPart(graphDb, proportionalCoeficient);
             loaderPart.loadData();
 
-            LoaderPartSupplier loaderPartSupplier = new LoaderPartSupplier(graphDb);
+            LoaderPartSupplier loaderPartSupplier = new LoaderPartSupplier(graphDb, proportionalCoeficient);
             loaderPartSupplier.loadData();
 
-            LoaderCustomer loaderCustomer = new LoaderCustomer(graphDb);
+            LoaderCustomer loaderCustomer = new LoaderCustomer(graphDb, proportionalCoeficient);
             loaderCustomer.loadData();
 
-            LoaderOrder loaderOrder = new LoaderOrder(graphDb);
+            LoaderOrder loaderOrder = new LoaderOrder(graphDb, proportionalCoeficient);
             loaderOrder.loadData();
 
-            LoaderListItem loaderListItem = new LoaderListItem(graphDb);
+            LoaderListItem loaderListItem = new LoaderListItem(graphDb, proportionalCoeficient);
             loaderListItem.loadData();
 
             tx.success();
@@ -112,8 +104,9 @@ public class App {
         argumentsFour.add("2014-01-01");
         q.execute(argumentsFour);
 
+
+        //Todo: ver si se puede borrar el metodo shutdown
         graphDb.shutdown();
-        System.out.println( "Goodbye Cruel World!" );
 	}
 
 	private static void dropDatabase() {

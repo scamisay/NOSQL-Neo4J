@@ -12,12 +12,10 @@ import org.neo4j.graphdb.Transaction;
 
 public class LoaderCustomer extends LoaderDB {
 
-	public LoaderCustomer(String db_path) {
-		super(db_path);
-	}
-	
-	public LoaderCustomer(GraphDatabaseService db){
-		super(db);
+    private Integer MAX_NODES = 150000;
+
+	public LoaderCustomer(GraphDatabaseService db, float proportionalCoeficient){
+        super(db, proportionalCoeficient);
 	}
 	
 	@Override
@@ -30,14 +28,12 @@ public class LoaderCustomer extends LoaderDB {
 
         String[] nations={"Argentina","Brasil","Egipto","Rusia","Italia","Japón","China","Sudáfrica","Estados Unidos","Inglaterra","Colombia","Arabia Saudita","Australia","Grecia","México","España","Nigeria","Tailandia","Nueva Zelanda","Perú","Noruega","Kazajstán","Venezuela","Puerto Rico","República del Congo"};
 
-		int maxValues = (int) (SF * 150000);
-		for (int i = 1; i <= maxValues; ++i) {
+        int limit = (int) nodesToCreate();
+        for (int i = 1; i <= limit; ++i) {
 			Node customerNode = db.createNode(customer);
-			
-			Integer id = getRandomInteger();
 
-			customerNode.setProperty("C_NAME", getRandomString(64));
-			customerNode.setProperty("C_ADDRESS", getRandomString(64));
+			customerNode.setProperty("C_NAME", generateVariableRandomString(64));
+			customerNode.setProperty("C_ADDRESS", generateVariableRandomString(64));
 			
 			String nationName=nations[random.nextInt(nations.length)];
 			
@@ -47,26 +43,27 @@ public class LoaderCustomer extends LoaderDB {
 				Node nationNode=it.next();
 				nationNode.createRelationshipTo(customerNode, RelTypes.HAS_CUSTOMER);
 			}
-			
-			//customerNode.createRelationshipTo(nation, RelTypes.CUSTOMER_BELONGS_TO_NATION);
-			
-			customerNode.setProperty("C_PHONE", getRandomString(64));
+
+			customerNode.setProperty("C_PHONE", generateVariableRandomString(64));
 			customerNode.setProperty("C_ACCTBAL", getRandomDouble(13));
 
-            if (random.nextInt(20) == 0)
+            if (chooseWithProbability(10)){
                 customerNode.setProperty("C_MKTSEGMENT", "12345678901234567890123456789012");
-            else
-            customerNode.setProperty("C_MKTSEGMENT", getRandomString(64));
-			customerNode.setProperty("C_COMMENT", getRandomString(120));
+            }else{
+                customerNode.setProperty("C_MKTSEGMENT", generateVariableRandomString(64));
+            }
+
+            customerNode.setProperty("C_COMMENT", generateVariableRandomString(120));
 		}
 
         tx.success();
 
 	}
 
-	
-	
-	
+    @Override
+    protected float nodesToCreate() {
+        return MAX_NODES * proportionalCoeficient;
+    }
 
-	
+
 }

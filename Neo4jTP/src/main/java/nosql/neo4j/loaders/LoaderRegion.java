@@ -7,12 +7,9 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 
 public class LoaderRegion extends LoaderDB{
-	public LoaderRegion(String db_path) {
-		super(db_path);
-	}
 
-	public LoaderRegion(GraphDatabaseService db){
-		super(db);
+	public LoaderRegion(GraphDatabaseService db, float proportionalCoeficient){
+		super(db, proportionalCoeficient);
 	}
 	
 	@Override
@@ -31,5 +28,10 @@ public class LoaderRegion extends LoaderDB{
 		
 		tx.success();
 	}
+
+    @Override
+    protected float nodesToCreate() {
+        return 0;
+    }
 
 }

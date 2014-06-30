@@ -16,7 +16,10 @@ public abstract class QueryDB {
 	
 	public abstract void execute(List<String> arguments);
 
-    public void printResults(ExecutionResult result){
+    public void printResults(ExecutionResult result, Integer queryNUmber){
+
+        System.out.print("\n\n\n***** Result for Query " + queryNUmber + " ****\n\n");
+
         for ( Map<String, Object> row : result )
         {
             String rows = "";

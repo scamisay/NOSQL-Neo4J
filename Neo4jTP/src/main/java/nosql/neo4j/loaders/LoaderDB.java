@@ -14,17 +14,12 @@ public abstract class LoaderDB {
 
     protected Random random = new Random(3l);
 
-    protected float SF = 0.00333333f;
+    protected float proportionalCoeficient;
     
-	public LoaderDB(String db_path) {
-	
-		this.db = new GraphDatabaseFactory().newEmbeddedDatabase(db_path);
-	
-	}
-	
-	public LoaderDB(GraphDatabaseService db){
+	public LoaderDB(GraphDatabaseService db, float proportionalCoeficient){
 		super();
 		this.db=db;
+        this.proportionalCoeficient = proportionalCoeficient;
 	}
 	
     protected Integer getRandomInteger() {
@@ -41,7 +36,7 @@ public abstract class LoaderDB {
         return sum;
     }
 
-    protected String getRandomString( int size ) {
+    protected String generateVariableRandomString(int size) {
         String result = "";
         for ( int i = 0; i < size/2; ++i ) {
             int number = random.nextInt(20);
@@ -90,5 +85,16 @@ public abstract class LoaderDB {
         return list;
     }
 
+    protected Integer generateUniqueKey(){
+        return null;
+    }
+
+    protected boolean chooseWithProbability(Integer probability){
+        probability = probability % (101);
+
+        return random.nextInt(100/probability) == 0;
+    }
+
+    protected abstract float nodesToCreate();
 
 }

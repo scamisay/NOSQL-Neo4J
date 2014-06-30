@@ -1,14 +1,13 @@
 package nosql.neo4j.queries;
 
-import java.util.*;
-
 import nosql.neo4j.loaders.LabelTypes;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.helpers.collection.IteratorUtil;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class QueryOne extends QueryDB{
 
@@ -20,7 +19,7 @@ public class QueryOne extends QueryDB{
 	@Override
 	public void execute(List<String> arguments) {
         ExecutionEngine engine = new ExecutionEngine( db );
-        Calendar calendar = new GregorianCalendar(2014,6,30);
+        Calendar calendar = new GregorianCalendar(2014,5,25);
         ExecutionResult result = engine.execute(
                 "MATCH (n:`"+ LabelTypes.LineItem.getDescription()+"`)\n" +
                 "   WHERE n.L_SHIPDATE <= "+ calendar.getTime().getTime() +"\n" +
@@ -31,7 +30,7 @@ public class QueryOne extends QueryDB{
         );
 
 
-        printResults(result);
+        printResults(result, 1);
 
 	}
 

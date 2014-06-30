@@ -7,9 +7,10 @@ import java.util.*;
 /**
  * Created by scamisay on 6/27/14.
  */
+//TODO: eliminar esta clase
 public class GraphCreator {
 
-    private Random random = new Random(3l);
+ /*   private Random random = new Random(3l);
 
     private float SF = 0.00333333f;
 
@@ -434,5 +435,5 @@ public class GraphCreator {
 
             lineitems.add(lineitemNode);
         }
-    }
+    }*/
 }
