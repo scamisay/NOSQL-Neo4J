@@ -52,6 +52,10 @@ public class LoaderCustomer extends LoaderDB {
 			
 			customerNode.setProperty("C_PHONE", getRandomString(64));
 			customerNode.setProperty("C_ACCTBAL", getRandomDouble(13));
+
+            if (random.nextInt(20) == 0)
+                customerNode.setProperty("C_MKTSEGMENT", "12345678901234567890123456789012");
+            else
             customerNode.setProperty("C_MKTSEGMENT", getRandomString(64));
 			customerNode.setProperty("C_COMMENT", getRandomString(120));
 		}

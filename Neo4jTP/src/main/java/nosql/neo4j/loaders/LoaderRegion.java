@@ -18,7 +18,7 @@ public class LoaderRegion extends LoaderDB{
 	@Override
 	public void loadData() {
 		Transaction tx = db.beginTx();
-		String[] regions={"América","Europa","Asia","África","Oceanía"};
+		String[] regions={"América","Europa","Asia","África","Oceanía","12345678901234567890123456789012"};
 		
 		Label region= DynamicLabel.label(LabelTypes.Region.name());
 		for(int i=0;i<regions.length;i++){

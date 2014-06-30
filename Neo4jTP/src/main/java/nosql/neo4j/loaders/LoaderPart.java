@@ -60,8 +60,16 @@ public class LoaderPart extends LoaderDB{
             partNode.setProperty("P_NAME", getRandomString(64));
             partNode.setProperty("P_MFGR", getRandomString(64));
             partNode.setProperty("P_BRAND", getRandomString(64));
-            partNode.setProperty("P_TYPE", getRandomString(64));
-            partNode.setProperty("P_SIZE",  getRandomInteger());
+
+            if (random.nextInt(10) == 0) {
+                partNode.setProperty("P_TYPE", "12345678901234567890123456789012");
+                partNode.setProperty("P_SIZE", 1000);
+            }
+            else {
+                partNode.setProperty("P_TYPE", getRandomString(64));
+                partNode.setProperty("P_SIZE",  getRandomInteger());
+            }
+
             partNode.setProperty("P_CONTAINER", getRandomString(64));
             partNode.setProperty("P_RETAILPRICE", getRandomDouble(13));
             partNode.setProperty("P_COMMENT", getRandomString(64));
